@@ -49,7 +49,7 @@
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg-rgb: 248, 250, 252;
+  --bs-body-bg-rgb: 255, 255, 255;
   --bs-font-sans-serif: "Nunito", sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
@@ -58,7 +58,7 @@
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.6;
   --bs-body-color: #212529;
-  --bs-body-bg: #f8fafc;
+  --bs-body-bg: #fff;
 }
 
 *,
@@ -644,7 +644,7 @@ progress {
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #f8fafc;
+  background-color: #fff;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   max-width: 100%;
@@ -2269,7 +2269,7 @@ progress {
   font-weight: 400;
   line-height: 1.6;
   color: #212529;
-  background-color: #f8fafc;
+  background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   -webkit-appearance: none;
@@ -2295,7 +2295,7 @@ progress {
 
 .form-control:focus {
   color: #212529;
-  background-color: #f8fafc;
+  background-color: #fff;
   border-color: #86b7fe;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
@@ -2481,7 +2481,7 @@ textarea.form-control-lg {
   font-weight: 400;
   line-height: 1.6;
   color: #212529;
-  background-color: #f8fafc;
+  background-color: #fff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
@@ -2554,7 +2554,7 @@ textarea.form-control-lg {
   height: 1em;
   margin-top: 0.3em;
   vertical-align: top;
-  background-color: #f8fafc;
+  background-color: #fff;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -2675,11 +2675,11 @@ textarea.form-control-lg {
 }
 
 .form-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .form-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .form-range::-moz-focus-outer {
@@ -4481,8 +4481,8 @@ fieldset:disabled .btn {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #f8fafc;
-  border-color: #dee2e6 #dee2e6 #f8fafc;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
 }
 
 .nav-tabs .dropdown-menu {
@@ -5193,11 +5193,6 @@ fieldset:disabled .btn {
   border-bottom: 0;
 }
 
-.card-header-tabs .nav-link.active {
-  background-color: #fff;
-  border-bottom-color: #fff;
-}
-
 .card-header-pills {
   margin-right: -0.5rem;
   margin-left: -0.5rem;
@@ -5291,7 +5286,7 @@ fieldset:disabled .btn {
   font-size: 0.9rem;
   color: #212529;
   text-align: left;
-  background-color: #f8fafc;
+  background-color: #fff;
   border: 0;
   border-radius: 0;
   overflow-anchor: none;
@@ -5349,7 +5344,7 @@ fieldset:disabled .btn {
 }
 
 .accordion-item {
-  background-color: #f8fafc;
+  background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
@@ -12175,6 +12170,305 @@ fieldset:disabled .btn {
 
   .d-print-none {
     display: none !important;
+  }
+}
+
+div#app {
+  display: flex;
+}
+
+div#app.sidenav-closed aside#sidenav {
+  width: 105px;
+  min-width: 105px;
+}
+
+div#app.sidenav-closed aside#sidenav .sidenav-menu > .nav .sidenav-menu-heading {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+div#app.sidenav-closed aside#sidenav .sidenav-menu > .nav a.nav-link {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+div#app.sidenav-closed aside#sidenav .sidenav-menu > .nav a.nav-link:hover::after {
+  -webkit-clip-path: circle(100% at 50% 50%);
+          clip-path: circle(100% at 50% 50%);
+}
+
+div#app.sidenav-closed aside#sidenav .sidenav-menu > .nav a.nav-link::after {
+  -webkit-clip-path: circle(0 at 50% 40%);
+          clip-path: circle(0 at 50% 40%);
+}
+
+div#app.sidenav-closed aside#sidenav .sidenav-menu > .nav a.nav-link .nav-link-icon {
+  margin-right: 0;
+}
+
+div#app.sidenav-closed aside#sidenav .sidenav-menu > .nav a.nav-link span {
+  font-size: 0.75rem;
+}
+
+div#app.sidenav-closed main#wrapper {
+  margin-left: 105px;
+}
+
+div#app aside#sidenav {
+  width: 225px;
+  min-width: 225px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1001;
+  transition: 0.3s ease-in-out;
+}
+
+div#app aside#sidenav .sidenav-brand {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  background-color: #3f71c0;
+}
+
+div#app aside#sidenav .sidenav-brand a {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+div#app aside#sidenav .sidenav-brand a::after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  border-bottom: 1px solid #f8fafc;
+  opacity: 0.15;
+}
+
+div#app aside#sidenav .sidenav-brand a img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+div#app aside#sidenav .sidenav-menu {
+  overflow-y: auto;
+  position: absolute;
+  top: 70px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #3f71c0;
+  transition: 0.3s ease-in-out;
+}
+
+div#app aside#sidenav .sidenav-menu::-webkit-scrollbar {
+  width: 6.5px;
+}
+
+div#app aside#sidenav .sidenav-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+div#app aside#sidenav .sidenav-menu::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+div#app aside#sidenav .sidenav-menu::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+div#app aside#sidenav .sidenav-menu > .nav {
+  flex-direction: column;
+}
+
+div#app aside#sidenav .sidenav-menu > .nav .sidenav-menu-heading {
+  width: 100%;
+  color: #f8fafc;
+  opacity: 0.4;
+  padding: 1rem 1rem 0.5rem 1rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 0.8rem;
+  transition: 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+
+div#app aside#sidenav .sidenav-menu > .nav a.nav-link {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  font-size: 1rem;
+  position: relative;
+  opacity: 0.9;
+}
+
+div#app aside#sidenav .sidenav-menu > .nav a.nav-link:hover {
+  transition: 0.3s ease-in-out;
+}
+
+div#app aside#sidenav .sidenav-menu > .nav a.nav-link:hover::after {
+  -webkit-clip-path: circle(100% at 50% 50%);
+          clip-path: circle(100% at 50% 50%);
+}
+
+div#app aside#sidenav .sidenav-menu > .nav a.nav-link::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: #f8fafc;
+  opacity: 0.15;
+  z-index: -1;
+  -webkit-clip-path: circle(0 at 16px 50%);
+          clip-path: circle(0 at 16px 50%);
+  transition: 0.3s ease-in-out;
+}
+
+div#app aside#sidenav .sidenav-menu > .nav a.nav-link .nav-link-icon {
+  color: #f8fafc;
+  margin-right: 0.75rem;
+}
+
+div#app aside#sidenav .sidenav-menu > .nav a.nav-link span {
+  color: #f8fafc;
+  transition: 0.3s ease-in-out;
+}
+
+div#app main#wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  margin-left: 225px;
+  background-color: #f8fafc;
+  transition: 0.3s ease-in-out;
+}
+
+div#app main#wrapper nav#topnav {
+  height: 70px;
+  background-color: #fff;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  padding: 0.5rem 0.75rem;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: 0.3s ease-in-out;
+}
+
+div#app main#wrapper nav#topnav button#sidebarToggle {
+  font-size: 1rem;
+  color: #3f71c0;
+  opacity: 0.8;
+}
+
+div#app main#wrapper nav#topnav button#sidebarToggle:focus {
+  border-radius: 50px;
+  transition: 0.3s ease-in-out;
+}
+
+div#app main#wrapper nav#topnav ul.navbar-nav li.nav-item a#navbarDropdown {
+  color: #3f71c0;
+  opacity: 0.8;
+}
+
+div#app main#wrapper nav#topnav ul.navbar-nav li.nav-item .dropdown-menu a.dropdown-item {
+  color: #3f71c0;
+  opacity: 0.8;
+}
+
+div#app main#wrapper section#mainContent {
+  margin-top: 70px;
+}
+
+@media screen and (max-width: 767px) {
+  div#app.sidenav-closed aside#sidenav .sidenav-menu {
+    transform: translateX(-105px);
+  }
+
+  div#app.sidenav-closed main#wrapper {
+    margin-left: 0;
+  }
+
+  div#app.sidenav-closed main#wrapper::after {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  div#app.sidenav-closed main#wrapper nav#topnav {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  div#app aside#sidenav {
+    width: 105px;
+    min-width: 105px;
+  }
+
+  div#app aside#sidenav .sidenav-menu > .nav .sidenav-menu-heading {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  div#app aside#sidenav .sidenav-menu > .nav a.nav-link {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  div#app aside#sidenav .sidenav-menu > .nav a.nav-link:hover::after {
+    -webkit-clip-path: circle(100% at 50% 50%);
+            clip-path: circle(100% at 50% 50%);
+  }
+
+  div#app aside#sidenav .sidenav-menu > .nav a.nav-link::after {
+    -webkit-clip-path: circle(0 at 50% 40%);
+            clip-path: circle(0 at 50% 40%);
+  }
+
+  div#app aside#sidenav .sidenav-menu > .nav a.nav-link .nav-link-icon {
+    margin-right: 0;
+  }
+
+  div#app aside#sidenav .sidenav-menu > .nav a.nav-link span {
+    font-size: 0.75rem;
+  }
+
+  div#app main#wrapper {
+    margin-left: 0;
+  }
+
+  div#app main#wrapper::after {
+    content: "";
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    background-color: #3f71c0;
+    transition: 0.3s ease-in-out;
+  }
+
+  div#app main#wrapper nav#topnav {
+    width: 100%;
+    margin-left: 0;
   }
 }
 

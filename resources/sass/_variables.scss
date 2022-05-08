@@ -1,7 +1,18 @@
-// Body
-$body-bg: #f8fafc;
+// Color
+// $primaryColor: #2B2831;
+// $primaryColor: #212529;
+$primaryColor: #3f71c0;
+$secondaryColor: #f8fafc;
+$darkBoxShadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+// Size
+$sidenavOpenWidth: 225px;
+$sidenavClosedWidth: 105px;
+$topnavHeight: 70px;
+
+$primaryTransition: 0.3s ease-in-out;
