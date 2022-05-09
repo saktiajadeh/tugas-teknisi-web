@@ -22,6 +22,12 @@
     <!-- Styles -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- SweetAlert2 --}}
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+
+    @yield('headLink')
 </head>
 <body>
     <div id="app">
@@ -49,9 +55,9 @@
                         </a>
                         <a class="nav-link" href="#">
                             <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
-                            <span>Teknisi</span>
+                            <span>Karyawan</span>
                         </a>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url('/pelanggan') }}">
                             <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
                             <span>Pelanggan</span>
                         </a>
@@ -111,7 +117,7 @@
                 </ul>
             </nav>
 
-            <section id="mainContent" class="py-4">
+            <section id="mainContent">
                 @yield('content')
             </section>
 
@@ -123,7 +129,16 @@
                 </div>
             </footer>
         </main>
+
+        <div id="loadingOverlay">
+            <div class="spinner"></div>
+        </div>
         @endguest
     </div>
+
+    <!-- jQuery 3 -->
+    <script src="{{  asset('js/jquery-3.6.0.min.js') }}"></script>
+
+    @yield('bodyScripts')
 </body>
 </html>

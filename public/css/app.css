@@ -12173,8 +12173,136 @@ fieldset:disabled .btn {
   }
 }
 
+@-webkit-keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.animate {
+  animation-duration: 0.3s;
+  -webkit-animation-duration: 0.3s;
+  animation-fill-mode: both;
+  -webkit-animation-fill-mode: both;
+}
+
+.animate.scaleIn {
+  animation-name: scaleIn;
+  -webkit-animation-name: scaleIn;
+}
+
 div#app {
   display: flex;
+}
+
+div#app .spinner {
+  width: 80px;
+  height: 80px;
+  border: 7px solid #f8fafc;
+  border-radius: 100px;
+  border-top: 7px solid #3f71c0;
+  -webkit-animation: spinner 0.6s linear infinite;
+          animation: spinner 0.6s linear infinite;
+}
+
+div#app span.help-block {
+  color: #e74a3b;
+}
+
+div#app .table-responsive {
+  display: block;
+  width: 1px;
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+div#app .modal {
+  padding: 0 !important;
+}
+
+div#app .btn:hover {
+  transition: 0.3s ease-in-out;
+}
+
+div#app .btn-primary {
+  color: #fff;
+  background-color: rgba(63, 113, 192, 0.85);
+  border-color: #3f71c0;
+}
+
+div#app .btn-primary:hover {
+  color: #fff;
+  background-color: #3f71c0;
+  border-color: #3f71c0;
+}
+
+div#app .btn-outline-primary {
+  color: #3f71c0;
+  border-color: #3f71c0;
+}
+
+div#app .btn-outline-primary:hover {
+  color: #fff;
+  background-color: #3f71c0;
+  border-color: #3f71c0;
 }
 
 div#app.sidenav-closed aside#sidenav {
@@ -12394,6 +12522,108 @@ div#app main#wrapper nav#topnav ul.navbar-nav li.nav-item .dropdown-menu a.dropd
 
 div#app main#wrapper section#mainContent {
   margin-top: 70px;
+}
+
+div#app main#wrapper section#mainContent .card {
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+div#app main#wrapper section#mainContent .card .card-header {
+  color: rgba(63, 113, 192, 0.85);
+  background: transparent;
+  padding: 1rem;
+}
+
+div#app main#wrapper section#mainContent .card .card-header h5,
+div#app main#wrapper section#mainContent .card .card-header .h5 {
+  font-weight: 600;
+}
+
+div#app main#wrapper section#mainContent .card .card-body {
+  color: rgba(43, 40, 49, 0.85);
+}
+
+div#app main#wrapper section#mainContent .card .card-body .dataTables_wrapper.dt-bootstrap5.no-footer .row:nth-of-type(2) {
+  display: block;
+  width: 1px;
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+div#app main#wrapper section#mainContent .card .card-body table {
+  color: rgba(43, 40, 49, 0.85) !important;
+  width: 100% !important;
+}
+
+div#app main#wrapper section#mainContent .card .card-body ul.pagination li.page-item.active .page-link {
+  color: #fff;
+  background-color: rgba(63, 113, 192, 0.85);
+  border-color: rgba(63, 113, 192, 0.85);
+}
+
+div#app main#wrapper section#mainContent .card .card-body ul.pagination li.page-item .page-link {
+  color: rgba(63, 113, 192, 0.85);
+}
+
+div#app main#wrapper section#mainContent .card .card-body #modal-form .modal-header button {
+  transition: 0.3s ease-in-out;
+  color: rgba(63, 113, 192, 0.85);
+}
+
+div#app main#wrapper section#mainContent .card .card-body #modal-form .modal-header button:hover {
+  color: #3f71c0;
+}
+
+div#app main#wrapper section#mainContent .card.main-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 1.25rem;
+  border: none;
+  text-decoration: none;
+  border: none;
+  border-left: 0.25rem solid #3f71c0;
+  background: linear-gradient(to left, #fff 50%, #3f71c0 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: 0.3s ease-in-out;
+}
+
+div#app main#wrapper section#mainContent .card.main-menu:hover {
+  background-position: left bottom;
+}
+
+div#app main#wrapper section#mainContent .card.main-menu:hover h5,
+div#app main#wrapper section#mainContent .card.main-menu:hover .h5,
+div#app main#wrapper section#mainContent .card.main-menu:hover i {
+  color: #f8fafc;
+}
+
+div#app main#wrapper section#mainContent .card.main-menu h5,
+div#app main#wrapper section#mainContent .card.main-menu .h5 {
+  color: rgba(63, 113, 192, 0.85);
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+}
+
+div#app main#wrapper section#mainContent .card.main-menu i {
+  color: rgba(63, 113, 192, 0.85);
+  font-size: 2em;
+  transition: 0.3s ease-in-out;
+}
+
+div#app #loadingOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  background-color: #3f71c0;
 }
 
 @media screen and (max-width: 767px) {

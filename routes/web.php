@@ -18,3 +18,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('pelanggan', 'App\Http\Controllers\PelangganController');
+    Route::get('/apiPelanggan', 'App\Http\Controllers\PelangganController@apiPelanggan')->name('api.pelanggan');
+});
