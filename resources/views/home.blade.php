@@ -10,13 +10,13 @@
 
     <div class="row">
         <div class="col-md-6 col-lg-4">
-            <a href="{{ url('/home') }}" class="card main-menu mb-3">
+            <a href="{{ url('/beranda') }}" class="card main-menu mb-3">
                 <h5 class="mb-0">Beranda</h5>
                 <i class="ion-home"></i>
             </a>
         </div>
         <div class="col-md-6 col-lg-4">
-            <a href="#" class="card main-menu mb-3">
+            <a href="{{ url('/karyawan') }}" class="card main-menu mb-3">
                 <h5 class="mb-0">Karyawan</h5>
                 <i class="ion-person-stalker"></i>
             </a>
@@ -28,7 +28,7 @@
             </a>
         </div>
         <div class="col-md-6 col-lg-4">
-            <a href="#" class="card main-menu mb-3">
+            <a href="{{ url('/kategorijasa') }}" class="card main-menu mb-3">
                 <h5 class="mb-0">Kategori Jasa</h5>
                 <i class="ion-gear-b"></i>
             </a>

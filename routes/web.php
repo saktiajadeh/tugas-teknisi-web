@@ -17,9 +17,15 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/beranda', 'App\Http\Controllers\HomeController@index')->name('home');
+
+    Route::resource('karyawan', 'App\Http\Controllers\UserController');
+    Route::get('/apiKaryawan', 'App\Http\Controllers\UserController@apiKaryawan')->name('api.karyawan');
+
     Route::resource('pelanggan', 'App\Http\Controllers\PelangganController');
     Route::get('/apiPelanggan', 'App\Http\Controllers\PelangganController@apiPelanggan')->name('api.pelanggan');
+
+    Route::resource('kategorijasa', 'App\Http\Controllers\KategoriJasaController');
+    Route::get('/apiKategoriJasa', 'App\Http\Controllers\KategoriJasaController@apiKategoriJasa')->name('api.kategorijasa');
 });

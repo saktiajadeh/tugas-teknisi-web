@@ -41,7 +41,7 @@
             <nav class="accordion" id="sidenavAccordion">
                 <!-- Sidenav Brand-->
                 <div class="sidenav-brand px-3">
-                    <a class="py-2" href="{{ url('/home') }}">
+                    <a class="py-2" href="{{ url('/beranda') }}">
                         <img src="{{ asset('img/logo-square-invert.png') }}" alt="">
                         {{-- <img src="{{ asset('img/logo-persegi-panjang-invert.png') }}" alt=""> --}}
                     </a>
@@ -49,11 +49,11 @@
                 <div class="sidenav-menu">
                     <div class="nav">
                         <div class="sidenav-menu-heading">Menu Utama</div>
-                        <a class="nav-link" href="{{ url('/home') }}">
+                        <a class="nav-link" href="{{ url('/beranda') }}">
                             <div class="nav-link-icon"><i class="ion-home"></i></div>
                             <span>Beranda</span>
                         </a>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url('/karyawan') }}">
                             <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
                             <span>Karyawan</span>
                         </a>
@@ -61,7 +61,7 @@
                             <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
                             <span>Pelanggan</span>
                         </a>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ url('/kategorijasa') }}">
                             <div class="nav-link-icon"><i class="ion-gear-b"></i></div>
                             <span>Kategori Jasa</span>
                         </a>
@@ -102,7 +102,7 @@
                             {{ Auth::user()->name }}
                             <i class="fas fa-user fa-fw"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-end animate scaleIn" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
