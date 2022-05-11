@@ -136,10 +136,13 @@ class UserController extends Controller
         $data = User::all();
 
         return Datatables::of($data)
+            ->addColumn('role_info', function($data){
+                return '<span class="badge bg-secondary">'. $data->role .'</span>';
+            })
             ->addColumn('action', function($data){
                 return '<a onclick="editForm('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-edit"></i> Ubah</a> ' .
                     '<a onclick="deleteData('. $data->id .')" class="btn btn-outline-danger btn-sm mb-2" style="min-width: 65px;"><i class="ion-trash-a"></i> Hapus</a>';
             })
-            ->rawColumns(['action'])->make(true);
+            ->rawColumns(['role_info', 'action'])->make(true);
     }
 }

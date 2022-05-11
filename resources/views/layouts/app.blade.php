@@ -53,26 +53,37 @@
                             <div class="nav-link-icon"><i class="ion-home"></i></div>
                             <span>Beranda</span>
                         </a>
-                        <a class="nav-link" href="{{ url('/karyawan') }}">
-                            <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
-                            <span>Karyawan</span>
-                        </a>
-                        <a class="nav-link" href="{{ url('/pelanggan') }}">
-                            <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
-                            <span>Pelanggan</span>
-                        </a>
-                        <a class="nav-link" href="{{ url('/kategorijasa') }}">
-                            <div class="nav-link-icon"><i class="ion-gear-b"></i></div>
-                            <span>Kategori Jasa</span>
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
-                            <span>Tugas Teknisi</span>
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="nav-link-icon"><i class="ion-ios-book"></i></div>
-                            <span>Laporan Tugas</span>
-                        </a>
+                        @if(Auth::user()->role === "admin")
+                            <a class="nav-link" href="{{ url('/karyawan') }}">
+                                <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
+                                <span>Karyawan</span>
+                            </a>
+                            <a class="nav-link" href="{{ url('/pelanggan') }}">
+                                <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
+                                <span>Pelanggan</span>
+                            </a>
+                            <a class="nav-link" href="{{ url('/kategorijasa') }}">
+                                <div class="nav-link-icon"><i class="ion-gear-b"></i></div>
+                                <span>Kategori Jasa</span>
+                            </a>
+                            <a class="nav-link" href="{{ url('/tugasteknisi') }}">
+                                <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
+                                <span>Tugas Teknisi</span>
+                            </a>
+                            <a class="nav-link" href="#">
+                                <div class="nav-link-icon"><i class="ion-ios-book"></i></div>
+                                <span>Laporan Tugas Teknisi</span>
+                            </a>
+                        @elseif(Auth::user()->role === "teknisi")
+                            <a class="nav-link" href="#">
+                                <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
+                                <span>Daftar Tugas</span>
+                            </a>
+                            <a class="nav-link" href="#">
+                                <div class="nav-link-icon"><i class="ion-android-checkmark-circle"></i></div>
+                                <span>Tugas Selesai</span>
+                            </a>
+                        @endif
                         {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="nav-link-icon"><i class="ion-ios-book"></i></div>
                             Master Data

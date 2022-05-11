@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h1 class="my-4" style="font-weight: 600; opacity: 0.85;">Data Karyawan</h1>
+                <h1 class="my-4" style="font-weight: 600; opacity: 0.85;">Data Tugas Teknisi</h1>
             </div>
         </div>
 
@@ -12,32 +12,32 @@
             <div class="col-md-12">
                 <div class="card mb-3">
                     {{-- <div class="card-header">
-                        <h5 class="mb-0">Data Karyawan</h5>
+                        <h5 class="mb-0">Data Tugas Teknisi</h5>
                     </div> --}}
                     <div class="card-body">
                         <div class="d-flex justify-content-center justify-content-md-start mb-3">
                             <a onclick="addForm()" class="btn btn-primary btn-sm">
                                 <i class="ion-plus-round"></i>
-                                Tambah Data Karyawan
+                                Tambah Data Tugas Teknisi
                             </a>
                         </div>
                         <div class="table-responsive p-1">
-                            <table id="karyawanTable" class="table table-striped">
+                            <table id="tugasTeknisiTable" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Hak Akses</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>No Telpon</th>
-                                        <th>Alamat</th>
-                                        {{-- <th>Aksi</th> --}}
+                                        <th>Nama Pelanggan</th>
+                                        <th>Kategori Jasa</th>
+                                        <th>Detail Tugas</th>
+                                        <th>Nama Teknisi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
                         </div>
-                        @include('karyawan.form')
+                        @include('tugasteknisi.form')
                     </div>
                 </div>
             </div>
@@ -61,18 +61,18 @@
     <script src="{{ asset('js/validator.min.js') }}"></script>
 
     <script type="text/javascript">
-        var table = $('#karyawanTable').DataTable({
+        var table = $('#tugasTeknisiTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('api.karyawan') }}",
+            ajax: "{{ route('api.tugasteknisi') }}",
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'role_info', name: 'role_info', searchable: false},
-                {data: 'name', name: 'name'},
-                {data: 'email', name: 'email'},
-                {data: 'no_telp', name: 'no_telp'},
-                {data: 'alamat', name: 'alamat'},
-                // {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'nama_pelanggan', name: 'nama_pelanggan'},
+                {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
+                {data: 'detail', name: 'detail'},
+                {data: 'nama_karyawan', name: 'nama_karyawan'},
+                {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
+                {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
 
@@ -81,7 +81,7 @@
             $('input[name=_method]').val('POST');
             $('#modal-form').modal('show');
             $('#modal-form form')[0].reset();
-            $('.modal-title').text('Tambah Data Karyawan');
+            $('.modal-title').text('Tambah Data Tugas Teknisi');
         }
 
         function editForm(id) {
@@ -89,15 +89,18 @@
             $('input[name=_method]').val('PATCH');
             $('#modal-form form')[0].reset();
             $.ajax({
-                url: "{{ url('karyawan') }}" + '/' + id + "/edit",
+                url: "{{ url('tugasteknisi') }}" + '/' + id + "/edit",
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
                     $('#modal-form').modal('show');
-                    $('.modal-title').text('Ubah Data Karyawan');
+                    $('.modal-title').text('Ubah Data Tugas Teknisi');
 
                     $('#id').val(data.id);
-                    $('#nama').val(data.nama);
+                    $('#pelanggan_id').val(data.pelanggan_id);
+                    $('#kategori_jasa_id').val(data.kategori_jasa_id);
+                    $('#detail').val(data.detail);
+                    $('#karyawan_id').val(data.karyawan_id);
                 },
                 error : function() {
                     alert("Nothing Data");
@@ -118,7 +121,7 @@
                 confirmButtonText: 'Ya, Hapus'
             }).then(function () {
                 $.ajax({
-                    url : "{{ url('karyawan') }}" + '/' + id,
+                    url : "{{ url('tugasteknisi') }}" + '/' + id,
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {
@@ -146,8 +149,8 @@
             $('#modal-form form').validator().on('submit', function (e) {
                 if (!e.isDefaultPrevented()){
                     var id = $('#id').val();
-                    if (save_method == 'add') url = "{{ url('karyawan') }}";
-                    else url = "{{ url('karyawan') . '/' }}" + id;
+                    if (save_method == 'add') url = "{{ url('tugasteknisi') }}";
+                    else url = "{{ url('tugasteknisi') . '/' }}" + id;
 
                     $.ajax({
                         url : url,

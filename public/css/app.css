@@ -12305,6 +12305,22 @@ div#app .btn-outline-primary:hover {
   border-color: #3f71c0;
 }
 
+div#app .bg-primary {
+  background-color: #3f71c0 !important;
+}
+
+div#app .bg-secondary {
+  background-color: #858796 !important;
+}
+
+div#app .bg-success {
+  background-color: #1cc88a !important;
+}
+
+div#app .bg-danger {
+  background-color: #e74a3b !important;
+}
+
 div#app.sidenav-closed aside#sidenav {
   width: 105px;
   min-width: 105px;

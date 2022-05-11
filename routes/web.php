@@ -28,4 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('kategorijasa', 'App\Http\Controllers\KategoriJasaController');
     Route::get('/apiKategoriJasa', 'App\Http\Controllers\KategoriJasaController@apiKategoriJasa')->name('api.kategorijasa');
+
+    Route::resource('tugasteknisi', 'App\Http\Controllers\TugasTeknisiController');
+    Route::get('/apiTugasTeknisi', 'App\Http\Controllers\TugasTeknisiController@apiTugasTeknisi')->name('api.tugasteknisi');
 });
