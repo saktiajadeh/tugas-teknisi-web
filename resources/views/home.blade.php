@@ -41,7 +41,7 @@
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
-                <a href="#" class="card main-menu mb-3">
+                <a href="{{ url('/laporantugasteknisi') }}" class="card main-menu mb-3">
                     <h5 class="mb-0">Laporan Tugas Teknisi</h5>
                     <i class="ion-ios-book"></i>
                 </a>

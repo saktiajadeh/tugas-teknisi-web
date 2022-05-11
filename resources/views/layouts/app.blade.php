@@ -70,7 +70,7 @@
                                 <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
                                 <span>Tugas Teknisi</span>
                             </a>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('/laporantugasteknisi') }}">
                                 <div class="nav-link-icon"><i class="ion-ios-book"></i></div>
                                 <span>Laporan Tugas Teknisi</span>
                             </a>

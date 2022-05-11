@@ -8,11 +8,16 @@ use App\Models\Pelanggan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use PDF;
 
 class TugasTeknisiController extends Controller
 {
     public function __construct(){
         $this->middleware('role:admin');
+    }
+    public function laporanTugasTeknisi()
+    {
+        return view('tugasteknisi.laporan');
     }
     /**
      * Display a listing of the resource.
@@ -132,6 +137,15 @@ class TugasTeknisiController extends Controller
         $data = TugasTeknisi::all();
 
         return Datatables::of($data)
+            ->addColumn('nama_pelanggan', function ($data){
+                return $data->pelanggan->nama;
+            })
+            ->addColumn('nama_kategori_jasa', function ($data){
+                return $data->kategorijasa->nama;
+            })
+            ->addColumn('nama_karyawan', function ($data){
+                return $data->karyawan->name;
+            })
             ->addColumn('status_info', function ($data){
                 $info = null;
                 if($data->status === "nostatus"){
@@ -144,8 +158,26 @@ class TugasTeknisiController extends Controller
                     return '<span class="badge bg-success">Selesai</span>';
                 }
             })
+            ->addColumn('action', function($data){
+                return '<a onclick="editForm('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-edit"></i> Ubah</a> ' .
+                    '<a onclick="deleteData('. $data->id .')" class="btn btn-outline-danger btn-sm mb-2" style="min-width: 65px;"><i class="ion-trash-a"></i> Hapus</a>';
+            })
+            ->rawColumns(['status_info', 'action'])->make(true);
+    }
+
+    public function apiLaporanTugasTeknisi()
+    {
+        $data = TugasTeknisi::where('status', '=', 'finish')->get();
+
+        return Datatables::of($data)
             ->addColumn('nama_pelanggan', function ($data){
                 return $data->pelanggan->nama;
+            })
+            ->addColumn('alamat_pelanggan', function ($data){
+                return $data->pelanggan->alamat;
+            })
+            ->addColumn('no_telp_pelanggan', function ($data){
+                return $data->pelanggan->no_telp;
             })
             ->addColumn('nama_kategori_jasa', function ($data){
                 return $data->kategorijasa->nama;
@@ -153,10 +185,33 @@ class TugasTeknisiController extends Controller
             ->addColumn('nama_karyawan', function ($data){
                 return $data->karyawan->name;
             })
-            ->addColumn('action', function($data){
-                return '<a onclick="editForm('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-edit"></i> Ubah</a> ' .
-                    '<a onclick="deleteData('. $data->id .')" class="btn btn-outline-danger btn-sm mb-2" style="min-width: 65px;"><i class="ion-trash-a"></i> Hapus</a>';
+            ->addColumn('mulai_info', function ($data){
+                return 'Jam: ' . $data->jam_mulai . ', Tanggal: '. $data->tanggal_mulai;
             })
-            ->rawColumns(['status_info', 'action'])->make(true);
+            ->addColumn('selesai_info', function ($data){
+                return 'Jam: ' . $data->jam_selesai . ', Tanggal: '. $data->tanggal_selesai;
+            })
+            ->addColumn('status_info', function ($data){
+                $info = null;
+                if($data->status === "nostatus"){
+                    return '<span class="badge bg-secondary">Belum Dikerjakan</span>';
+                }
+                if($data->status === "progress"){
+                    return '<span class="badge bg-primary">Sedang Dikerjakan</span>';
+                }
+                if($data->status === "finish"){
+                    return '<span class="badge bg-success">Selesai</span>';
+                }
+            })
+            ->rawColumns(['status_info'])->make(true);
+    }
+
+    public function exportLaporanTugasTeknisi()
+    {
+        $laporan = TugasTeknisi::where('status', '=', 'finish')->get();
+        
+        
+        $pdf = PDF::loadView('tugasteknisi.cetakLaporanPDF',compact('laporan'));
+        return $pdf->setPaper('a4', 'landscape')->download('Laporan Tugas Teknisi.pdf');
     }
 }
