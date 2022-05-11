@@ -54,13 +54,13 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="#" class="card main-menu mb-3">
+                <a href="{{ url('/daftartugas') }}" class="card main-menu mb-3">
                     <h5 class="mb-0">Daftar Tugas</h5>
                     <i class="ion-clipboard"></i>
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="#" class="card main-menu mb-3">
+                <a href="{{ url('/daftartugasselesai') }}" class="card main-menu mb-3">
                     <h5 class="mb-0">Tugas Selesai</h5>
                     <i class="ion-android-checkmark-circle"></i>
                 </a>

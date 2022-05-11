@@ -105,6 +105,16 @@ div#app{
         }
     }
 
+    .btn-outline-success{
+        color: $successColor;
+        border-color: $successColor;
+        &:hover{
+            color: #fff;
+            background-color: $successColor;
+            border-color: $successColor;
+        }
+    }
+
     .bg-primary{
         background-color: $primaryColor !important;
     }

@@ -34,4 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/laporantugasteknisi', 'App\Http\Controllers\TugasTeknisiController@laporanTugasTeknisi');
     Route::get('/apiLaporanTugasTeknisi', 'App\Http\Controllers\TugasTeknisiController@apiLaporanTugasTeknisi')->name('api.laporantugasteknisi');
     Route::get('/exportLaporanTugasTeknisi', 'App\Http\Controllers\TugasTeknisiController@exportLaporanTugasTeknisi')->name('exportPDF.laporanTugasTeknisi');
+
+    Route::resource('daftartugas', 'App\Http\Controllers\DaftarTugasController');
+    Route::get('/apiDaftarTugas', 'App\Http\Controllers\DaftarTugasController@apiDaftarTugas')->name('api.daftartugas');
+    Route::get('/daftartugasselesai', 'App\Http\Controllers\DaftarTugasController@daftarTugasSelesai');
+    Route::get('/apiDaftarTugasSelesai', 'App\Http\Controllers\DaftarTugasController@apiDaftarTugasSelesai')->name('api.daftartugasselesai');
 });

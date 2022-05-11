@@ -75,11 +75,11 @@
                                 <span>Laporan Tugas Teknisi</span>
                             </a>
                         @elseif(Auth::user()->role === "teknisi")
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('/daftartugas') }}">
                                 <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
                                 <span>Daftar Tugas</span>
                             </a>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('/daftartugasselesai') }}">
                                 <div class="nav-link-icon"><i class="ion-android-checkmark-circle"></i></div>
                                 <span>Tugas Selesai</span>
                             </a>
