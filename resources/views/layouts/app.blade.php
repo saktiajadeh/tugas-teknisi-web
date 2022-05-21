@@ -32,7 +32,7 @@
 <body>
     <div id="app">
         @guest
-            <main id="wrapperLogin" class="w-100 py-4">
+            <main id="wrapperLogin" class="w-100 py-4 d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/icon-logo-transparent.png') }}');">
                 @yield('content')
             </main>
         @else

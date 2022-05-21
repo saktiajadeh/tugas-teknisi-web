@@ -12640,6 +12640,23 @@ div#app main#wrapper section#mainContent .card.main-menu i {
   transition: 0.3s ease-in-out;
 }
 
+div#app main#wrapperLogin {
+  background-repeat: space;
+  background-size: 75px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+div#app main#wrapperLogin .container .row .card {
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+div#app main#wrapperLogin .container .row .card .card-header img {
+  max-height: 180px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
 div#app #loadingOverlay {
   position: fixed;
   top: 0;

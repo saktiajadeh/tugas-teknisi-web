@@ -444,6 +444,26 @@ div#app{
         }
     }
 
+    main#wrapperLogin{
+        background-repeat: space;
+        background-size: 75px;
+        background-color: $lightColor;
+        min-height: 100vh;
+        .container{
+            .row{
+                .card{
+                    box-shadow: $darkBoxShadow;
+                    .card-header{
+                        img{
+                            max-height: 180px;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     #loadingOverlay{
         position: fixed;
         top: 0;
