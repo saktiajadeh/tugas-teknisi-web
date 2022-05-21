@@ -21,6 +21,32 @@
                                 Cetak Laporan
                             </a>
                         </div>
+                        <div class="d-flex flex-wrap flex-column flex-md-row align-items-center">
+                            <div class="form-group mb-2 me-2">
+                                <select id="filter_pelanggan" name="filter_pelanggan" class="form-control select" style="min-width: 190px; max-width: 200px;">
+                                    <option value=" ">-- Filter Pelanggan --</option>
+                                    @foreach($pelanggan as $data)
+                                        <option value="{{ $data->id }}">{{ $data->nama }} - {{ $data->alamat }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-2 me-2">
+                                <select id="filter_kategorijasa" name="filter_kategorijasa" class="form-control select" style="min-width: 190px; max-width: 200px;">
+                                    <option value=" ">-- Filter Kategori --</option>
+                                    @foreach($kategorijasa as $data)
+                                        <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <select id="filter_teknisi" name="filter_teknisi" class="form-control select" style="min-width: 190px; max-width: 200px;">
+                                    <option value=" ">-- Filter Teknisi --</option>
+                                    @foreach($teknisi as $data)
+                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-responsive p-1">
                             <table id="laporanTugasTeknisiTable" class="table">
                                 <thead>
@@ -63,28 +89,48 @@
     <script src="{{ asset('js/validator.min.js') }}"></script>
 
     <script type="text/javascript">
-        var table = $('#laporanTugasTeknisiTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('api.laporantugasteknisi') }}",
-            columns: [
-                { 
-                    'data': null,
-                    'sortable': false,
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
+        function fetchData(filter_pelanggan = "", filter_kategorijasa = "", filter_teknisi = ""){
+            var table = $('#laporanTugasTeknisiTable').DataTable({
+                "bDestroy": true,
+                processing: true,
+                serverSide: true,
+                ajax:{
+                    url: "{{ route('api.laporantugasteknisi') }}",
+                    data: {
+                        filter_pelanggan: filter_pelanggan,
+                        filter_kategorijasa: filter_kategorijasa,
+                        filter_teknisi: filter_teknisi,
                     }
                 },
-                {data: 'nama_pelanggan', name: 'nama_pelanggan'},
-                {data: 'alamat_pelanggan', name: 'alamat_pelanggan'},
-                {data: 'no_telp_pelanggan', name: 'no_telp_pelanggan'},
-                {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
-                {data: 'detail', name: 'detail'},
-                {data: 'nama_karyawan', name: 'nama_karyawan'},
-                {data: 'mulai_info', name: 'mulai_info'},
-                {data: 'selesai_info', name: 'selesai_info'},
-                {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
-            ],
+                columns: [
+                    { 
+                        'data': null,
+                        'sortable': false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_pelanggan', name: 'nama_pelanggan'},
+                    {data: 'alamat_pelanggan', name: 'alamat_pelanggan'},
+                    {data: 'no_telp_pelanggan', name: 'no_telp_pelanggan'},
+                    {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
+                    {data: 'detail', name: 'detail'},
+                    {data: 'nama_karyawan', name: 'nama_karyawan'},
+                    {data: 'mulai_info', name: 'mulai_info'},
+                    {data: 'selesai_info', name: 'selesai_info'},
+                    {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
+                ],
+            });
+        }
+
+        $('select').on('change', function (e) {
+            var filter_pelanggan = $('#filter_pelanggan').val();
+            var filter_kategorijasa = $('#filter_kategorijasa').val();
+            var filter_teknisi = $('#filter_teknisi').val();
+
+            fetchData(filter_pelanggan, filter_kategorijasa, filter_teknisi);
         });
+
+        fetchData();
     </script>
 @endsection

@@ -17,7 +17,10 @@ class TugasTeknisiController extends Controller
     }
     public function laporanTugasTeknisi()
     {
-        return view('tugasteknisi.laporan');
+        $pelanggan = Pelanggan::select('id','nama', 'alamat')->orderBy('nama')->get();
+        $kategorijasa = KategoriJasa::select('nama','id')->get();
+        $teknisi = User::select('name','id')->where('role', '=', 'teknisi')->orderBy('name')->get();
+        return view('tugasteknisi.laporan', compact('pelanggan', 'kategorijasa', 'teknisi'));
     }
     /**
      * Display a listing of the resource.
@@ -165,9 +168,25 @@ class TugasTeknisiController extends Controller
             ->rawColumns(['status_info', 'action'])->make(true);
     }
 
-    public function apiLaporanTugasTeknisi()
+    public function apiLaporanTugasTeknisi(Request $request)
     {
-        $data = TugasTeknisi::where('status', '=', 'finish')->get();
+        $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
+        $filter_kategorijasa = (int)$request->filter_kategorijasa ?? null;
+        $filter_teknisi = (int)$request->filter_teknisi ?? null;
+
+        $data = TugasTeknisi::where('status', '=', 'finish');
+
+        if($filter_pelanggan != null){
+            $data->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $data->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        if($filter_teknisi != null){
+            $data->where('karyawan_id', '=', $filter_teknisi);
+        }
+
+        $data = $data->get();
 
         return Datatables::of($data)
             ->addColumn('nama_pelanggan', function ($data){

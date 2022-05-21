@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Pelanggan;
+use App\Models\KategoriJasa;
 use App\Models\TugasTeknisi;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -14,7 +16,9 @@ class DaftarTugasController extends Controller
     }
     public function daftarTugasSelesai()
     {
-        return view('daftartugas.selesai');
+        $pelanggan = Pelanggan::select('id','nama', 'alamat')->orderBy('nama')->get();
+        $kategorijasa = KategoriJasa::select('nama','id')->get();
+        return view('daftartugas.selesai', compact('pelanggan', 'kategorijasa'));
     }
     /**
      * Display a listing of the resource.
@@ -168,10 +172,22 @@ class DaftarTugasController extends Controller
             ->rawColumns(['show_photo', 'status_info', 'action'])->make(true);
     }
 
-    public function apiDaftarTugasSelesai()
+    public function apiDaftarTugasSelesai(Request $request)
     {
+        $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
+        $filter_kategorijasa = (int)$request->filter_kategorijasa ?? null;
+
         $idTeknisi = Auth::user()->id;
-        $data = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->where('status', '=', 'finish')->get();
+        $data = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->where('status', '=', 'finish');
+
+        if($filter_pelanggan != null){
+            $data->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $data->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        
+        $data = $data->get();
 
         return Datatables::of($data)
             ->addColumn('nama_pelanggan', function ($data){

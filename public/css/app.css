@@ -12654,6 +12654,11 @@ div#app #loadingOverlay {
 }
 
 @media screen and (max-width: 767px) {
+  .dataTables_length,
+  .dataTables_info {
+    margin-bottom: 0.5rem;
+  }
+
   div#app.sidenav-closed aside#sidenav .sidenav-menu {
     transform: translateX(-105px);
   }

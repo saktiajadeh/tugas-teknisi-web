@@ -18,25 +18,37 @@
             </div>
             <div class="col-md-6 col-lg-4">
                 <a href="{{ url('/karyawan') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Karyawan</h5>
+                    <h5 class="mb-0">
+                        Karyawan 
+                        <span>({{ $totalData->karyawan }})</span>
+                    </h5>
                     <i class="ion-person-stalker"></i>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
                 <a href="{{ url('/pelanggan') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Pelanggan</h5>
+                    <h5 class="mb-0">
+                        Pelanggan
+                        <span>({{ $totalData->pelanggan }})</span>
+                    </h5>
                     <i class="ion-person-stalker"></i>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
                 <a href="{{ url('/kategorijasa') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Kategori Jasa</h5>
+                    <h5 class="mb-0">
+                        Kategori Jasa
+                        <span>({{ $totalData->kategorijasa }})</span>
+                    </h5>
                     <i class="ion-gear-b"></i>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
                 <a href="{{ url('/tugasteknisi') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Tugas Teknisi</h5>
+                    <h5 class="mb-0">
+                        Tugas Teknisi
+                        <span>({{ $totalData->tugasteknisi }})</span>
+                    </h5>
                     <i class="ion-clipboard"></i>
                 </a>
             </div>
@@ -55,13 +67,19 @@
             </div>
             <div class="col-md-4">
                 <a href="{{ url('/daftartugas') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Daftar Tugas</h5>
+                    <h5 class="mb-0">
+                        Daftar Tugas
+                        <span>({{ $totalData->daftartugas }})</span>
+                    </h5>
                     <i class="ion-clipboard"></i>
                 </a>
             </div>
             <div class="col-md-4">
                 <a href="{{ url('/daftartugasselesai') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Tugas Selesai</h5>
+                    <h5 class="mb-0">
+                        Tugas Selesai
+                        <span>({{ $totalData->tugasselesai }})</span>
+                    </h5>
                     <i class="ion-android-checkmark-circle"></i>
                 </a>
             </div>
