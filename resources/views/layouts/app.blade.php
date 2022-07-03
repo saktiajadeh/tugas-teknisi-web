@@ -66,9 +66,13 @@
                                 <div class="nav-link-icon"><i class="ion-gear-b"></i></div>
                                 <span>Kategori Jasa</span>
                             </a>
+                            <a class="nav-link" href="{{ url('/servisorder') }}">
+                                <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
+                                <span>Servis Order</span>
+                            </a>
                             <a class="nav-link" href="{{ url('/tugasteknisi') }}">
                                 <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
-                                <span>Tugas Teknisi</span>
+                                <span>Pembagian Tugas Teknisi</span>
                             </a>
                             <a class="nav-link" href="{{ url('/laporantugasteknisi') }}">
                                 <div class="nav-link-icon"><i class="ion-ios-book"></i></div>

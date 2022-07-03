@@ -27,7 +27,7 @@ class CreateTugasTeknisiTable extends Migration
             $table->time('jam_selesai')->nullable();
             $table->date('tanggal_selesai')->nullable();
 
-            $table->string('foto')->nullable();
+            $table->string('foto_mulai')->nullable();
 
             $table->enum('status',['nostatus', 'progress', 'finish'])->default('nostatus');
 

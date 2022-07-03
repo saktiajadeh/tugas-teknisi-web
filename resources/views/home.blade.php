@@ -44,9 +44,18 @@
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
+                <a href="{{ url('/servisorder') }}" class="card main-menu mb-3">
+                    <h5 class="mb-0">
+                        Servis Order
+                        {{-- <span>({{ $totalData->tugasteknisi }})</span> --}}
+                    </h5>
+                    <i class="ion-clipboard"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
                 <a href="{{ url('/tugasteknisi') }}" class="card main-menu mb-3">
                     <h5 class="mb-0">
-                        Tugas Teknisi
+                        Pembagian Tugas Teknisi
                         <span>({{ $totalData->tugasteknisi }})</span>
                     </h5>
                     <i class="ion-clipboard"></i>
