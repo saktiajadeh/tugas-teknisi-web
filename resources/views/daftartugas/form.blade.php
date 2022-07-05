@@ -16,23 +16,23 @@
                     <input type="text" id="status" name="status" style="display: none;">
                     <div class="box-body">
                         <div class="form-group mb-2">
-                            <label >Foto</label>
-                            <input type="file" class="form-control" id="foto" name="foto" required>
-                            <span class="help-block with-errors"></span>
+                            <label><strong>Pelanggan :</strong></label>
+                            <br>
+                            <label id="nama_pelanggan">Nama Pelaggan</label>
+                            <br>
+                            <label id="alamat_pelanggan">Alamat Pelaggan</label>
+                            <br>
+                            <label id="no_telp_pelanggan">No Telp Pelaggan</label>
+                            <br>
+                            <label ><strong>Kategori Jasa</strong></label>:&nbsp;<label id="kategori_jasa">Kategori Jasa</label>
+                            <br>
+                            <label ><strong>Jadwal Mulai</strong></label>:&nbsp;<label id="mulai_info">Jadwal Mulai</label>
+                            <br>
+                            <label ><strong>Detail Tugas</strong></label>:&nbsp;<label id="detail">Detail Tugas</label>
                         </div>
                         <div class="form-group mb-2">
-                            <label >Detail Tugas</label>
-                            <textarea type="text" class="form-control" id="detail" name="detail" required></textarea>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label >Jam Mulai</label>
-                            <input type="text" class="form-control" id="jam_mulai" name="jam_mulai" required>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label >Tanggal Mulai</label>
-                            <input type="text" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+                            <label >Foto Mulai</label>
+                            <input type="file" class="form-control" id="foto_mulai" name="foto_mulai" required>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

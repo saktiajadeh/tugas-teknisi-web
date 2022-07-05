@@ -71,6 +71,9 @@ class DaftarTugasController extends Controller
     public function edit($id)
     {
         $data = TugasTeknisi::find($id);
+        $data["pelanggan"] = $data->pelanggan;
+        $data["kategori_jasa"] = $data->kategorijasa;
+        $data["mulai_info"] = $data->tanggal_mulai . ', ' . $data->jam_mulai;;
         return $data;
     }
 
@@ -86,14 +89,22 @@ class DaftarTugasController extends Controller
         $input = $request->all();
         $data = TugasTeknisi::findOrFail($id);
 
-        $input['foto'] = $data->foto;
-
-        if ($request->hasFile('foto')){
-            if (!$data->foto == NULL){
-                unlink(public_path($data->foto));
+        $input['foto_mulai'] = $data->foto_mulai;
+        if ($request->hasFile('foto_mulai')){
+            if (!$data->foto_mulai == NULL){
+                unlink(public_path($data->foto_mulai));
             }
-            $input['foto'] = '/upload/tugasteknisi/' . $input['id'] . '-' . str_replace(' ', '-', $data->kategorijasa->nama) . '.' . $request->foto->getClientOriginalExtension();
-            $request->foto->move(public_path('/upload/tugasteknisi/'), $input['foto']);
+            $input['foto_mulai'] = '/upload/tugasteknisi/' . $input['id'] . '-foto-mulai' . '.' . $request->foto_mulai->getClientOriginalExtension();
+            $request->foto_mulai->move(public_path('/upload/tugasteknisi/'), $input['foto_mulai']);
+        }
+
+        $input['foto_selesai'] = $data->foto_selesai;
+        if ($request->hasFile('foto_selesai')){
+            if (!$data->foto_selesai == NULL){
+                unlink(public_path($data->foto_selesai));
+            }
+            $input['foto_selesai'] = '/upload/tugasteknisi/' . $input['id'] . '-foto-selesai' . '.' . $request->foto_selesai->getClientOriginalExtension();
+            $request->foto_selesai->move(public_path('/upload/tugasteknisi/'), $input['foto_selesai']);
         }
 
         $data->update($input);
@@ -133,20 +144,26 @@ class DaftarTugasController extends Controller
             ->addColumn('nama_kategori_jasa', function ($data){
                 return $data->kategorijasa->nama;
             })
-            ->addColumn('nama_karyawan', function ($data){
-                return $data->karyawan->name;
-            })
             ->addColumn('mulai_info', function ($data){
-                return 'Jam: ' . $data->jam_mulai . ', Tanggal: '. $data->tanggal_mulai;
+                return 'Tanggal: ' . $data->tanggal_mulai . ', ' . $data->jam_mulai;
             })
             ->addColumn('selesai_info', function ($data){
-                return 'Jam: ' . $data->jam_selesai . ', Tanggal: '. $data->tanggal_selesai;
+                if($data->tanggal_selesai != null && $data->jam_selesai != null){
+                    return 'Tanggal: ' . $data->tanggal_selesai . ', ' . $data->jam_selesai;
+                }
+                return "-";
             })
-            ->addColumn('show_photo', function($data){
-                if ($data->foto == NULL){
+            ->addColumn('show_foto_mulai', function($data){
+                if ($data->foto_mulai == NULL){
                     return 'Foto belum ada';
                 }
-                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto) .'" alt="" style="object-fit: contain;">';
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_mulai) .'" alt="" style="object-fit: contain;">';
+            })
+            ->addColumn('show_foto_selesai', function($data){
+                if ($data->foto_selesai == NULL){
+                    return 'Foto belum ada';
+                }
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_selesai) .'" alt="" style="object-fit: contain;">';
             })
             ->addColumn('status_info', function ($data){
                 $info = null;
@@ -169,7 +186,7 @@ class DaftarTugasController extends Controller
                     return '<a onclick="selesaiForm('. $data->id .')" class="btn btn-outline-success btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-android-checkmark-circle"></i> Selesai?</a> ';
                 }
             })
-            ->rawColumns(['show_photo', 'status_info', 'action'])->make(true);
+            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info', 'action'])->make(true);
     }
 
     public function apiDaftarTugasSelesai(Request $request)
@@ -202,20 +219,26 @@ class DaftarTugasController extends Controller
             ->addColumn('nama_kategori_jasa', function ($data){
                 return $data->kategorijasa->nama;
             })
-            ->addColumn('nama_karyawan', function ($data){
-                return $data->karyawan->name;
-            })
             ->addColumn('mulai_info', function ($data){
-                return 'Jam: ' . $data->jam_mulai . ', Tanggal: '. $data->tanggal_mulai;
+                return 'Tanggal: ' . $data->tanggal_mulai . ', ' . $data->jam_mulai;
             })
             ->addColumn('selesai_info', function ($data){
-                return 'Jam: ' . $data->jam_selesai . ', Tanggal: '. $data->tanggal_selesai;
+                if($data->tanggal_selesai != null && $data->jam_selesai != null){
+                    return 'Tanggal: ' . $data->tanggal_selesai . ', ' . $data->jam_selesai;
+                }
+                return "-";
             })
-            ->addColumn('show_photo', function($data){
-                if ($data->foto == NULL){
+            ->addColumn('show_foto_mulai', function($data){
+                if ($data->foto_mulai == NULL){
                     return 'Foto belum ada';
                 }
-                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto) .'" alt="" style="object-fit: contain;">';
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_mulai) .'" alt="" style="object-fit: contain;">';
+            })
+            ->addColumn('show_foto_selesai', function($data){
+                if ($data->foto_selesai == NULL){
+                    return 'Foto belum ada';
+                }
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_selesai) .'" alt="" style="object-fit: contain;">';
             })
             ->addColumn('status_info', function ($data){
                 $info = null;
@@ -229,6 +252,6 @@ class DaftarTugasController extends Controller
                     return '<span class="badge bg-success">Selesai</span>';
                 }
             })
-            ->rawColumns(['show_photo', 'status_info'])->make(true);
+            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info'])->make(true);
     }
 }

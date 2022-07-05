@@ -103,9 +103,6 @@ class TugasTeknisiController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'pelanggan_id'      => 'required',
-            'kategori_jasa_id'  => 'required',
-            'detail'            => 'required|string|min:2',
             'karyawan_id'       => 'required',
         ]);
 
@@ -115,7 +112,7 @@ class TugasTeknisiController extends Controller
 
         return response()->json([
             'success'    => true,
-            'message'    => 'Tugas Teknisi Berhasil Diubah'
+            'message'    => 'Tugas Teknisi Berhasil Diserahkan'
         ]);
     }
 
@@ -143,11 +140,35 @@ class TugasTeknisiController extends Controller
             ->addColumn('nama_pelanggan', function ($data){
                 return $data->pelanggan->nama;
             })
+            ->addColumn('alamat_pelanggan', function ($data){
+                return $data->pelanggan->alamat;
+            })
+            ->addColumn('no_telp_pelanggan', function ($data){
+                return $data->pelanggan->no_telp;
+            })
             ->addColumn('nama_kategori_jasa', function ($data){
                 return $data->kategorijasa->nama;
             })
-            ->addColumn('nama_karyawan', function ($data){
-                return $data->karyawan->name;
+            ->addColumn('mulai_info', function ($data){
+                return 'Tanggal: ' . $data->tanggal_mulai . ', ' . $data->jam_mulai;
+            })
+            ->addColumn('selesai_info', function ($data){
+                if($data->tanggal_selesai != null && $data->jam_selesai != null){
+                    return 'Tanggal: ' . $data->tanggal_selesai . ', ' . $data->jam_selesai;
+                }
+                return "-";
+            })
+            ->addColumn('show_foto_mulai', function($data){
+                if ($data->foto_mulai == NULL){
+                    return 'Foto belum ada';
+                }
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_mulai) .'" alt="" style="object-fit: contain;">';
+            })
+            ->addColumn('show_foto_selesai', function($data){
+                if ($data->foto_selesai == NULL){
+                    return 'Foto belum ada';
+                }
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_selesai) .'" alt="" style="object-fit: contain;">';
             })
             ->addColumn('status_info', function ($data){
                 $info = null;
@@ -162,10 +183,12 @@ class TugasTeknisiController extends Controller
                 }
             })
             ->addColumn('action', function($data){
-                return '<a onclick="editForm('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-edit"></i> Ubah</a> ' .
-                    '<a onclick="deleteData('. $data->id .')" class="btn btn-outline-danger btn-sm mb-2" style="min-width: 65px;"><i class="ion-trash-a"></i> Hapus</a>';
+                if($data->karyawan_id === 0){
+                    return '<a onclick="editForm('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-edit"></i> Serahkan Tugas</a> ';
+                }
+                return '<span class="badge bg-primary">Tugas sudah Diserahkan kepada '. $data->karyawan->name .'</span>';
             })
-            ->rawColumns(['status_info', 'action'])->make(true);
+            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info', 'action'])->make(true);
     }
 
     public function apiLaporanTugasTeknisi(Request $request)
@@ -201,14 +224,29 @@ class TugasTeknisiController extends Controller
             ->addColumn('nama_kategori_jasa', function ($data){
                 return $data->kategorijasa->nama;
             })
+            ->addColumn('mulai_info', function ($data){
+                return 'Tanggal: ' . $data->tanggal_mulai . ', ' . $data->jam_mulai;
+            })
             ->addColumn('nama_karyawan', function ($data){
                 return $data->karyawan->name;
             })
-            ->addColumn('mulai_info', function ($data){
-                return 'Jam: ' . $data->jam_mulai . ', Tanggal: '. $data->tanggal_mulai;
-            })
             ->addColumn('selesai_info', function ($data){
-                return 'Jam: ' . $data->jam_selesai . ', Tanggal: '. $data->tanggal_selesai;
+                if($data->tanggal_selesai != null && $data->jam_selesai != null){
+                    return 'Tanggal: ' . $data->tanggal_selesai . ', ' . $data->jam_selesai;
+                }
+                return "-";
+            })
+            ->addColumn('show_foto_mulai', function($data){
+                if ($data->foto_mulai == NULL){
+                    return 'Foto belum ada';
+                }
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_mulai) .'" alt="" style="object-fit: contain;">';
+            })
+            ->addColumn('show_foto_selesai', function($data){
+                if ($data->foto_selesai == NULL){
+                    return 'Foto belum ada';
+                }
+                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_selesai) .'" alt="" style="object-fit: contain;">';
             })
             ->addColumn('status_info', function ($data){
                 $info = null;
@@ -222,15 +260,16 @@ class TugasTeknisiController extends Controller
                     return '<span class="badge bg-success">Selesai</span>';
                 }
             })
-            ->rawColumns(['status_info'])->make(true);
+            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info'])->make(true);
     }
 
     public function exportLaporanTugasTeknisi()
     {
         $laporan = TugasTeknisi::where('status', '=', 'finish')->get();
+        $tanggal_mulai = TugasTeknisi::where('status', '=', 'finish')->orderBy('tanggal_mulai', 'ASC')->limit(1)->first();
+        $tanggal_selesai = TugasTeknisi::where('status', '=', 'finish')->orderBy('tanggal_selesai', 'DESC')->limit(1)->first();
         
-        
-        $pdf = PDF::loadView('tugasteknisi.cetakLaporanPDF',compact('laporan'));
+        $pdf = PDF::loadView('tugasteknisi.cetakLaporanPDF',compact('laporan', 'tanggal_mulai', 'tanggal_selesai'));
         return $pdf->setPaper('a4', 'landscape')->download('Laporan Tugas Teknisi.pdf');
     }
 }

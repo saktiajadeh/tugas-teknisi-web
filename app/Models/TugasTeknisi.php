@@ -9,7 +9,7 @@ class TugasTeknisi extends Model
 {
     protected $table = "tugas_teknisi";
 
-    protected $fillable = ['pelanggan_id', 'kategori_jasa_id', 'detail', 'karyawan_id', 'jam_mulai', 'tanggal_mulai', 'jam_selesai', 'tanggal_selesai', 'foto', 'status'];
+    protected $fillable = ['pelanggan_id', 'kategori_jasa_id', 'detail', 'karyawan_id', 'jam_mulai', 'tanggal_mulai', 'jam_selesai', 'tanggal_selesai', 'foto_mulai', 'foto_selesai', 'foto_dokumen', 'status'];
 
     protected $hidden = ['created_at', 'updated_at'];
 

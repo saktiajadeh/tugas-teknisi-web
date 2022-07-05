@@ -15,21 +15,6 @@
                     <input type="hidden" id="id" name="id">
                     <div class="box-body">
                         <div class="form-group mb-2">
-                            <label >Pelanggan</label>
-                            {!! Form::select('pelanggan_id', $pelanggan, null, ['class' => 'form-control select', 'placeholder' => '-- Pilih Pelanggan --', 'id' => 'pelanggan_id', 'required']) !!}
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label >Kategori Jasa</label>
-                            {!! Form::select('kategori_jasa_id', $kategorijasa, null, ['class' => 'form-control select', 'placeholder' => '-- Pilih Kategori --', 'id' => 'kategori_jasa_id', 'required']) !!}
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label >Detail Tugas</label>
-                            <textarea type="text" class="form-control" id="detail" name="detail" required></textarea>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="form-group mb-2">
                             <label >Teknisi</label>
                             {!! Form::select('karyawan_id', $teknisi, null, ['class' => 'form-control select', 'placeholder' => '-- Pilih Teknisi --', 'id' => 'karyawan_id', 'required']) !!}
                             <span class="help-block with-errors"></span>

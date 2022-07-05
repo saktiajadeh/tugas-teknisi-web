@@ -26,8 +26,8 @@
                                         <th>No Telp Pelanggan</th>
                                         <th>Kategori Jasa</th>
                                         <th>Detail Tugas</th>
-                                        <th>Teknisi</th>
-                                        <th>Foto</th>
+                                        <th>Dimulai pada</th>
+                                        <th>Foto Mulai</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -71,8 +71,8 @@
                 {data: 'no_telp_pelanggan', name: 'no_telp_pelanggan'},
                 {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
                 {data: 'detail', name: 'detail'},
-                {data: 'nama_karyawan', name: 'nama_karyawan'},
-                {data: 'show_photo', name: 'show_photo', orderable: false, searchable: false},
+                {data: 'mulai_info', name: 'mulai_info'},
+                {data: 'show_foto_mulai', name: 'show_foto_mulai', orderable: false, searchable: false},
                 {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
@@ -91,17 +91,22 @@
                     $('.modal-title').text('Mulai Kerjakan Tugas');
 
                     $('#id').val(data.id);
-                    $('#detail').val(data.detail);
-                    var current = new Date();
-                    var jam_mulai = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`
-                    var bulan = (current.getMonth() + 1) >= 10 ? (current.getMonth() + 1) : "0" + (current.getMonth() + 1);
-                    var tanggal_mulai = `${current.getFullYear()}-${bulan}-${current.getDate()}`
-                    $('#jam_mulai').val(jam_mulai);
-                    $('#tanggal_mulai').val(tanggal_mulai);
                     $('#status').val("progress");
+                    $('#nama_pelanggan').text(data.pelanggan.nama);
+                    $('#alamat_pelanggan').text(data.pelanggan.alamat);
+                    $('#no_telp_pelanggan').text(data.pelanggan.no_telp);
+                    $('#kategori_jasa').text(data.kategori_jasa.nama);
+                    $('#detail').text(data.detail);
+                    $('#mulai_info').text(data.mulai_info);
+                    // var current = new Date();
+                    // var jam_mulai = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`
+                    // var bulan = (current.getMonth() + 1) >= 10 ? (current.getMonth() + 1) : "0" + (current.getMonth() + 1);
+                    // var tanggal_mulai = `${current.getFullYear()}-${bulan}-${current.getDate()}`
+                    // $('#jam_mulai').val(jam_mulai);
+                    // $('#tanggal_mulai').val(tanggal_mulai);
 
-                    $("#jam_mulai").prop('disabled', true);
-                    $("#tanggal_mulai").prop('disabled', true);
+                    // $("#jam_mulai").prop('disabled', true);
+                    // $("#tanggal_mulai").prop('disabled', true);
                 },
                 error : function() {
                     alert("Nothing Data");
@@ -122,14 +127,20 @@
                     $('.modal-title').text('Tugas Selesai?');
 
                     $('#id_selesai').val(data.id);
-                    $('#detail_selesai').val(data.detail);
+                    $('#status_selesai').val("finish");
+                    // $('#detail_selesai').val(data.detail);
+                    $('#nama_pelanggan_selesai').text(data.pelanggan.nama);
+                    $('#alamat_pelanggan_selesai').text(data.pelanggan.alamat);
+                    $('#no_telp_pelanggan_selesai').text(data.pelanggan.no_telp);
+                    $('#kategori_jasa_selesai').text(data.kategori_jasa.nama);
+                    $('#detail_selesai').text(data.detail);
+
                     var current = new Date();
                     var jam_selesai = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`
                     var bulan = (current.getMonth() + 1) >= 10 ? (current.getMonth() + 1) : "0" + (current.getMonth() + 1);
                     var tanggal_selesai = `${current.getFullYear()}-${bulan}-${current.getDate()}`
                     $('#jam_selesai').val(jam_selesai);
                     $('#tanggal_selesai').val(tanggal_selesai);
-                    $('#status_selesai').val("finish");
 
                     $("#jam_selesai").prop('disabled', true);
                     $("#tanggal_selesai").prop('disabled', true);
@@ -147,8 +158,8 @@
                     if (save_method == 'add') url = "{{ url('daftartugas') }}";
                     else url = "{{ url('daftartugas') . '/' }}" + id;
 
-                    $("#jam_mulai").prop('disabled', false);
-                    $("#tanggal_mulai").prop('disabled', false);
+                    // $("#jam_mulai").prop('disabled', false);
+                    // $("#tanggal_mulai").prop('disabled', false);
                     $.ajax({
                         url : url,
                         type : "POST",

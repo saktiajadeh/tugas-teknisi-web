@@ -56,10 +56,12 @@
                                         <th>Alamat Pelanggan</th>
                                         <th>No Telp Pelanggan</th>
                                         <th>Kategori Jasa</th>
-                                        <th>Detail Tugas</th>
                                         <th>Teknisi</th>
-                                        <th>Dimulai Pada</th>
-                                        <th>Diselesaikan Pada</th>
+                                        <th>Detail Tugas</th>
+                                        <th>Dimulai pada</th>
+                                        <th>Diselesaikan pada</th>
+                                        <th>Foto Sebelum</th>
+                                        <th>Foto Selesai</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -114,10 +116,12 @@
                     {data: 'alamat_pelanggan', name: 'alamat_pelanggan'},
                     {data: 'no_telp_pelanggan', name: 'no_telp_pelanggan'},
                     {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
-                    {data: 'detail', name: 'detail'},
                     {data: 'nama_karyawan', name: 'nama_karyawan'},
+                    {data: 'detail', name: 'detail'},
                     {data: 'mulai_info', name: 'mulai_info'},
                     {data: 'selesai_info', name: 'selesai_info'},
+                    {data: 'show_foto_mulai', name: 'show_foto_mulai', orderable: false, searchable: false},
+                    {data: 'show_foto_selesai', name: 'show_foto_selesai', orderable: false, searchable: false},
                     {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
                 ],
             });

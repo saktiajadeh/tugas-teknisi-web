@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h1 class="my-4" style="font-weight: 600; opacity: 0.85;">Data Tugas Teknisi</h1>
+                <h1 class="my-4" style="font-weight: 600; opacity: 0.85;">Data Pembagian Tugas Teknisi</h1>
             </div>
         </div>
 
@@ -15,21 +15,26 @@
                         <h5 class="mb-0">Data Tugas Teknisi</h5>
                     </div> --}}
                     <div class="card-body">
-                        <div class="d-flex justify-content-center justify-content-md-start mb-3">
+                        {{-- <div class="d-flex justify-content-center justify-content-md-start mb-3">
                             <a onclick="addForm()" class="btn btn-primary btn-sm">
                                 <i class="ion-plus-round"></i>
                                 Tambah Data Tugas Teknisi
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="table-responsive p-1">
                             <table id="tugasTeknisiTable" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Nama Pelanggan</th>
+                                        <th>Alamat Pelanggan</th>
+                                        <th>No Telp Pelanggan</th>
                                         <th>Kategori Jasa</th>
                                         <th>Detail Tugas</th>
-                                        <th>Nama Teknisi</th>
+                                        <th>Dimulai pada</th>
+                                        <th>Diselesaikan pada</th>
+                                        <th>Foto Sebelum</th>
+                                        <th>Foto Selesai</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -68,9 +73,14 @@
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'nama_pelanggan', name: 'nama_pelanggan'},
+                {data: 'alamat_pelanggan', name: 'alamat_pelanggan'},
+                {data: 'no_telp_pelanggan', name: 'no_telp_pelanggan'},
                 {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
                 {data: 'detail', name: 'detail'},
-                {data: 'nama_karyawan', name: 'nama_karyawan'},
+                {data: 'mulai_info', name: 'mulai_info'},
+                {data: 'selesai_info', name: 'selesai_info'},
+                {data: 'show_foto_mulai', name: 'show_foto_mulai', orderable: false, searchable: false},
+                {data: 'show_foto_selesai', name: 'show_foto_selesai', orderable: false, searchable: false},
                 {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
@@ -94,12 +104,9 @@
                 dataType: "JSON",
                 success: function(data) {
                     $('#modal-form').modal('show');
-                    $('.modal-title').text('Ubah Data Tugas Teknisi');
+                    $('.modal-title').text('Serahkan Tugas Teknisi');
 
                     $('#id').val(data.id);
-                    $('#pelanggan_id').val(data.pelanggan_id);
-                    $('#kategori_jasa_id').val(data.kategori_jasa_id);
-                    $('#detail').val(data.detail);
                     $('#karyawan_id').val(data.karyawan_id);
                 },
                 error : function() {

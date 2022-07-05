@@ -157,7 +157,7 @@ class ServisOrderController extends Controller
 
     public function apiServisOrder()
     {
-        $data = TugasTeknisi::where('karyawan_id', '=', 0)->get();
+        $data = TugasTeknisi::all();
 
         return Datatables::of($data)
             ->addColumn('nama_pelanggan', function ($data){

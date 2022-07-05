@@ -43,10 +43,10 @@
                                         <th>No Telp Pelanggan</th>
                                         <th>Kategori Jasa</th>
                                         <th>Detail Tugas</th>
-                                        <th>Teknisi</th>
                                         <th>Dimulai Pada</th>
                                         <th>Diselesaikan Pada</th>
-                                        <th>Foto</th>
+                                        <th>Foto Mulai</th>
+                                        <th>Foto Selesai</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -101,10 +101,10 @@
                     {data: 'no_telp_pelanggan', name: 'no_telp_pelanggan'},
                     {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
                     {data: 'detail', name: 'detail'},
-                    {data: 'nama_karyawan', name: 'nama_karyawan'},
                     {data: 'mulai_info', name: 'mulai_info'},
                     {data: 'selesai_info', name: 'selesai_info'},
-                    {data: 'show_photo', name: 'show_photo', orderable: false, searchable: false},
+                    {data: 'show_foto_mulai', name: 'show_foto_mulai', orderable: false, searchable: false},
+                    {data: 'show_foto_selesai', name: 'show_foto_selesai', orderable: false, searchable: false},
                     {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
                 ],
             });

@@ -16,13 +16,23 @@
                     <input type="text" id="status_selesai" name="status" style="display: none;">
                     <div class="box-body">
                         <div class="form-group mb-2">
-                            <label >Foto</label>
-                            <input type="file" class="form-control" id="foto_selesai" name="foto" required>
-                            <span class="help-block with-errors"></span>
+                            <label><strong>Pelanggan :</strong></label>
+                            <br>
+                            <label id="nama_pelanggan_selesai">Nama Pelaggan</label>
+                            <br>
+                            <label id="alamat_pelanggan_selesai">Alamat Pelaggan</label>
+                            <br>
+                            <label id="no_telp_pelanggan_selesai">No Telp Pelaggan</label>
+                            <br>
+                            <label ><strong>Kategori Jasa</strong></label>:&nbsp;<label id="kategori_jasa_selesai">Kategori Jasa</label>
+                            <br>
+                            <label ><strong>Jadwal Mulai</strong></label>:&nbsp;<label id="mulai_info_selesai">Jadwal Mulai</label>
+                            <br>
+                            <label ><strong>Detail Tugas</strong></label>:&nbsp;<label id="detail_selesai">Detail Tugas</label>
                         </div>
                         <div class="form-group mb-2">
-                            <label >Detail Tugas</label>
-                            <textarea type="text" class="form-control" id="detail_selesai" name="detail" required></textarea>
+                            <label >Foto Selesai</label>
+                            <input type="file" class="form-control" id="foto_selesai" name="foto_selesai" required>
                             <span class="help-block with-errors"></span>
                         </div>
                         <div class="form-group mb-2">
