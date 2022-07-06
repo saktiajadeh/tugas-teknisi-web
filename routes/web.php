@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/beranda', 'App\Http\Controllers\HomeController@index')->name('home');
+    Route::get('/apiBarChart', 'App\Http\Controllers\HomeController@apiBarChart')->name('api.barchart');
 
     Route::resource('karyawan', 'App\Http\Controllers\UserController');
     Route::get('/apiKaryawan', 'App\Http\Controllers\UserController@apiKaryawan')->name('api.karyawan');
