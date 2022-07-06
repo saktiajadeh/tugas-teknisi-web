@@ -244,12 +244,16 @@
             });
         }
 
-        fetchData("today");
-
         $('select').on('change', function (e) {
             var filter_tanggal = $('#filter_tanggal').val();
 
             fetchData(filter_tanggal);
         });
+
+        var ctx = document.getElementById("myBarChart");
+        if(ctx == null || ctx == undefined){
+        } else {
+            fetchData("today");
+        }
     </script>
 @endsection
