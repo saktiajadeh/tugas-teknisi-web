@@ -302,8 +302,48 @@ class TugasTeknisiController extends Controller
         }
 
         $laporan = $laporan->get();
-        $tanggal_mulai = TugasTeknisi::where('status', '=', 'finish')->orderBy('tanggal_mulai', 'ASC')->limit(1)->first();
-        $tanggal_selesai = TugasTeknisi::where('status', '=', 'finish')->orderBy('tanggal_selesai', 'DESC')->limit(1)->first();
+
+        $tanggal_mulai = TugasTeknisi::where('status', '=', 'finish');
+        if($filter_pelanggan != null){
+            $tanggal_mulai->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $tanggal_mulai->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        if($filter_teknisi != null){
+            $tanggal_mulai->where('karyawan_id', '=', $filter_teknisi);
+        }
+        if($filter_bulan != null){
+            $filter_bulanArr = explode("-", $filter_bulan);
+            $totalTanggal = cal_days_in_month(CAL_GREGORIAN, $filter_bulanArr[1], $filter_bulanArr[0]);
+            $filterTanggalMulai = $filter_bulan . "-01";
+            $filterTanggalSelesai = $filter_bulan . "-" . $totalTanggal;
+
+            $tanggal_mulai->where('tugas_teknisi.tanggal_selesai', '>=', $filterTanggalMulai)
+            ->where('tugas_teknisi.tanggal_selesai', '<=', $filterTanggalSelesai);
+        }
+        $tanggal_mulai = $tanggal_mulai->orderBy('tanggal_mulai', 'ASC')->limit(1)->first();
+
+        $tanggal_selesai = TugasTeknisi::where('status', '=', 'finish');
+        if($filter_pelanggan != null){
+            $tanggal_selesai->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $tanggal_selesai->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        if($filter_teknisi != null){
+            $tanggal_selesai->where('karyawan_id', '=', $filter_teknisi);
+        }
+        if($filter_bulan != null){
+            $filter_bulanArr = explode("-", $filter_bulan);
+            $totalTanggal = cal_days_in_month(CAL_GREGORIAN, $filter_bulanArr[1], $filter_bulanArr[0]);
+            $filterTanggalMulai = $filter_bulan . "-01";
+            $filterTanggalSelesai = $filter_bulan . "-" . $totalTanggal;
+
+            $tanggal_selesai->where('tugas_teknisi.tanggal_selesai', '>=', $filterTanggalMulai)
+            ->where('tugas_teknisi.tanggal_selesai', '<=', $filterTanggalSelesai);
+        }
+        $tanggal_selesai = $tanggal_selesai->orderBy('tanggal_selesai', 'DESC')->limit(1)->first();
         
         $pdf = PDF::loadView('tugasteknisi.cetakLaporanPDF',compact('laporan', 'tanggal_mulai', 'tanggal_selesai'));
         return $pdf->setPaper('a4', 'landscape')->download('Laporan Tugas Teknisi.pdf');
