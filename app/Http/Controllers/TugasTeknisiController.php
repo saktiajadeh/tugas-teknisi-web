@@ -196,6 +196,7 @@ class TugasTeknisiController extends Controller
         $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
         $filter_kategorijasa = (int)$request->filter_kategorijasa ?? null;
         $filter_teknisi = (int)$request->filter_teknisi ?? null;
+        $filter_bulan = $request->filter_bulan ?? null;
 
         $data = TugasTeknisi::where('status', '=', 'finish');
 
@@ -207,6 +208,15 @@ class TugasTeknisiController extends Controller
         }
         if($filter_teknisi != null){
             $data->where('karyawan_id', '=', $filter_teknisi);
+        }
+        if($filter_bulan != null){
+            $filter_bulanArr = explode("-", $filter_bulan);
+            $totalTanggal = cal_days_in_month(CAL_GREGORIAN, $filter_bulanArr[1], $filter_bulanArr[0]);
+            $filterTanggalMulai = $filter_bulan . "-01";
+            $filterTanggalSelesai = $filter_bulan . "-" . $totalTanggal;
+
+            $data->where('tugas_teknisi.tanggal_selesai', '>=', $filterTanggalMulai)
+            ->where('tugas_teknisi.tanggal_selesai', '<=', $filterTanggalSelesai);
         }
 
         $data = $data->get();
@@ -263,9 +273,35 @@ class TugasTeknisiController extends Controller
             ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info'])->make(true);
     }
 
-    public function exportLaporanTugasTeknisi()
+    public function exportLaporanTugasTeknisi(Request $request)
     {
-        $laporan = TugasTeknisi::where('status', '=', 'finish')->get();
+        $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
+        $filter_kategorijasa = (int)$request['amp;filter_kategorijasa'] ?? null;
+        $filter_teknisi = (int)$request['amp;filter_teknisi'] ?? null;
+        $filter_bulan = $request['amp;filter_bulan'] ?? null;
+
+        $laporan = TugasTeknisi::where('status', '=', 'finish');
+
+        if($filter_pelanggan != null){
+            $laporan->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $laporan->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        if($filter_teknisi != null){
+            $laporan->where('karyawan_id', '=', $filter_teknisi);
+        }
+        if($filter_bulan != null){
+            $filter_bulanArr = explode("-", $filter_bulan);
+            $totalTanggal = cal_days_in_month(CAL_GREGORIAN, $filter_bulanArr[1], $filter_bulanArr[0]);
+            $filterTanggalMulai = $filter_bulan . "-01";
+            $filterTanggalSelesai = $filter_bulan . "-" . $totalTanggal;
+
+            $laporan->where('tugas_teknisi.tanggal_selesai', '>=', $filterTanggalMulai)
+            ->where('tugas_teknisi.tanggal_selesai', '<=', $filterTanggalSelesai);
+        }
+
+        $laporan = $laporan->get();
         $tanggal_mulai = TugasTeknisi::where('status', '=', 'finish')->orderBy('tanggal_mulai', 'ASC')->limit(1)->first();
         $tanggal_selesai = TugasTeknisi::where('status', '=', 'finish')->orderBy('tanggal_selesai', 'DESC')->limit(1)->first();
         

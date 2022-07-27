@@ -46,6 +46,13 @@
         <p align="right">{{ date('l, d F Y', strtotime($tanggal_mulai->tanggal_mulai)) }}-{{ date('l, d F Y', strtotime($tanggal_selesai->tanggal_selesai)) }}</p>
         <table id="cetakLaporan" width="100%" style="margin-top: 20px;">
             <thead>
+                @if(count($laporan) <= 0 )
+                <tr>
+                  <td style="word-break: break-word; font-weight: bold; text-align: center;">
+                    Tidak ada data yang tersedia
+                  </td>
+                </tr>
+                @else
                 <tr>
                     <td style="word-break: break-word; font-weight: bold;">No</td>
                     <td style="word-break: break-word; font-weight: bold;">Nama Pelanggan</td>
@@ -59,6 +66,7 @@
                     <td style="word-break: break-word; font-weight: bold;">Foto Mulai</td>
                     <td style="word-break: break-word; font-weight: bold;">Foto Selesai</td>
                 </tr>
+                @endif
             </thead>
             <tbody>
                 @foreach($laporan as $data)

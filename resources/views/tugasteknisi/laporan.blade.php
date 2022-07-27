@@ -16,10 +16,10 @@
                     </div> --}}
                     <div class="card-body">
                         <div class="d-flex justify-content-center justify-content-md-start mb-3">
-                            <a href="{{ route('exportPDF.laporanTugasTeknisi') }}" class="btn btn-primary btn-sm">
+                            <button onClick="exportPDFLaporan();" class="btn btn-primary btn-sm">
                                 <i class="ion-book"></i>
                                 Cetak Laporan
-                            </a>
+                            </button>
                         </div>
                         <div class="d-flex flex-wrap flex-column flex-md-row align-items-center">
                             <div class="form-group mb-2 me-2">
@@ -38,13 +38,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-2 me-2">
                                 <select id="filter_teknisi" name="filter_teknisi" class="form-control select" style="min-width: 190px; max-width: 200px;">
                                     <option value=" ">-- Filter Teknisi --</option>
                                     @foreach($teknisi as $data)
                                         <option value="{{ $data->id }}">{{ $data->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <input id="filter_bulan" name="filter_bulan" type="month" class="form-control" style="min-width: 190px; max-width: 200px;">
                             </div>
                         </div>
                         <div class="table-responsive p-1">
@@ -91,7 +94,7 @@
     <script src="{{ asset('js/validator.min.js') }}"></script>
 
     <script type="text/javascript">
-        function fetchData(filter_pelanggan = "", filter_kategorijasa = "", filter_teknisi = ""){
+        function fetchData(filter_pelanggan = "", filter_kategorijasa = "", filter_teknisi = "", filter_bulan = ""){
             var table = $('#laporanTugasTeknisiTable').DataTable({
                 "bDestroy": true,
                 processing: true,
@@ -102,6 +105,7 @@
                         filter_pelanggan: filter_pelanggan,
                         filter_kategorijasa: filter_kategorijasa,
                         filter_teknisi: filter_teknisi,
+                        filter_bulan: filter_bulan,
                     }
                 },
                 columns: [
@@ -127,12 +131,30 @@
             });
         }
 
+        function exportPDFLaporan(){
+            var filter_pelanggan = $('#filter_pelanggan').val();
+            var filter_kategorijasa = $('#filter_kategorijasa').val();
+            var filter_teknisi = $('#filter_teknisi').val();
+            var filter_bulan = $('#filter_bulan').val();
+            var url = `{{ url('exportLaporanTugasTeknisi?filter_pelanggan=${filter_pelanggan}&filter_kategorijasa=${filter_kategorijasa}&filter_teknisi=${filter_teknisi}&filter_bulan=${filter_bulan}') }}`;
+            window.location.href = url;
+        }
+
         $('select').on('change', function (e) {
             var filter_pelanggan = $('#filter_pelanggan').val();
             var filter_kategorijasa = $('#filter_kategorijasa').val();
             var filter_teknisi = $('#filter_teknisi').val();
+            var filter_bulan = $('#filter_bulan').val();
 
-            fetchData(filter_pelanggan, filter_kategorijasa, filter_teknisi);
+            fetchData(filter_pelanggan, filter_kategorijasa, filter_teknisi, filter_bulan);
+        });
+        $('#filter_bulan').on('change', function (e) {
+            var filter_pelanggan = $('#filter_pelanggan').val();
+            var filter_kategorijasa = $('#filter_kategorijasa').val();
+            var filter_teknisi = $('#filter_teknisi').val();
+            var filter_bulan = $('#filter_bulan').val();
+
+            fetchData(filter_pelanggan, filter_kategorijasa, filter_teknisi, filter_bulan);
         });
 
         fetchData();
