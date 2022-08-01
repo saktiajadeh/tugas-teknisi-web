@@ -12607,6 +12607,7 @@ div#app main#wrapper section#mainContent .card.main-menu {
   justify-content: space-between;
   flex-direction: row;
   padding: 1.25rem;
+  min-height: 105px;
   border: none;
   text-decoration: none;
   border: none;

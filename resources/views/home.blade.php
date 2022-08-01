@@ -8,115 +8,83 @@
         </div>
     </div>
 
-    <div class="row">
-        @if(Auth::user()->role === "admin")
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/beranda') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Beranda</h5>
-                    <i class="ion-home"></i>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/karyawan') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Karyawan 
-                        <span>({{ $totalData->karyawan }})</span>
-                    </h5>
-                    <i class="ion-person-stalker"></i>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/pelanggan') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Pelanggan
-                        <span>({{ $totalData->pelanggan }})</span>
-                    </h5>
-                    <i class="ion-person-stalker"></i>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/kategorijasa') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Kategori Jasa
-                        <span>({{ $totalData->kategorijasa }})</span>
-                    </h5>
-                    <i class="ion-gear-b"></i>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/servisorder') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Servis Order
-                        {{-- <span>({{ $totalData->tugasteknisi }})</span> --}}
-                    </h5>
-                    <i class="ion-clipboard"></i>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/tugasteknisi') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Pembagian Tugas Teknisi
-                        <span>({{ $totalData->tugasteknisi }})</span>
-                    </h5>
-                    <i class="ion-clipboard"></i>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="{{ url('/laporantugasteknisi') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Laporan Tugas Teknisi</h5>
-                    <i class="ion-ios-book"></i>
-                </a>
-            </div>
-        @elseif(Auth::user()->role === "teknisi")
-            <div class="col-md-4">
-                <a href="{{ url('/beranda') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">Beranda</h5>
-                    <i class="ion-home"></i>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url('/daftartugas') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Daftar Tugas
-                        <span>({{ $totalData->daftartugas }})</span>
-                    </h5>
-                    <i class="ion-clipboard"></i>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ url('/daftartugasselesai') }}" class="card main-menu mb-3">
-                    <h5 class="mb-0">
-                        Tugas Selesai
-                        <span>({{ $totalData->tugasselesai }})</span>
-                    </h5>
-                    <i class="ion-android-checkmark-circle"></i>
-                </a>
-            </div>
-        @endif
-    </div>
-
     @if(Auth::user()->role === "admin")
         <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-3">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="my-0" style="font-weight: 600;">Diagram Teknisi Tugas Selesai</h5>
-                        <div>
-                            <select id="filter_tanggal" name="filter_tanggal" class="form-control select" style="min-width: 190px; max-width: 200px;">
-                                <option value="today">Hari Ini</option>
-                                <option value="last7days">7 Hari Terakhir</option>
-                                <option value="last30days">30 Hari Terakhir</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-bar" style="height: 250px;">
-                            <canvas id="myBarChart"></canvas>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <h5 class="my-0" style="font-weight: 600;">Diagram Teknisi Tugas Selesai</h5>
+                                <div class="ms-2">
+                                    <select id="filter_tanggal" name="filter_tanggal" class="form-control select" style="max-width: 200px;">
+                                        <option value="today">Hari Ini</option>
+                                        <option value="last7days">7 Hari Terakhir</option>
+                                        <option value="last30days">30 Hari Terakhir</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="chart-bar" style="width: 98%; height: 253px; position: relative;">
+                                    <canvas id="myBarChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="{{ url('/karyawan') }}" class="card main-menu mb-3">
+                            <h5 class="mb-0 me-1">
+                                Karyawan 
+                                <span>({{ $totalData->karyawan }})</span>
+                            </h5>
+                            <i class="ion-person-stalker"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url('/pelanggan') }}" class="card main-menu mb-3">
+                            <h5 class="mb-0 me-1">
+                                Pelanggan
+                                <span>({{ $totalData->pelanggan }})</span>
+                            </h5>
+                            <i class="ion-person-stalker"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url('/kategorijasa') }}" class="card main-menu mb-3">
+                            <h5 class="mb-0 me-1">
+                                Kategori Jasa
+                                <span>({{ $totalData->kategorijasa }})</span>
+                            </h5>
+                            <i class="ion-gear-b"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url('/servisorder') }}" class="card main-menu mb-3">
+                            <h5 class="mb-0 me-1">
+                                Servis Order
+                                <span>({{ $totalData->servisorder }})</span>
+                            </h5>
+                            <i class="ion-clipboard"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url('/tugasteknisi') }}" class="card main-menu mb-3">
+                            <h5 class="mb-0 me-1">
+                                Pembagian Tugas Teknisi
+                                <span>({{ $totalData->tugasteknisi }})</span>
+                            </h5>
+                            <i class="ion-clipboard"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+    @endif
+    @if(Auth::user()->role === "teknisi")
     @endif
 </div>
 @endsection
@@ -143,6 +111,7 @@
                 }],
             },
             options: {
+                responsive: true,
                 maintainAspectRatio: false,
                 layout: {
                 padding: {
@@ -250,10 +219,14 @@
             fetchData(filter_tanggal);
         });
 
-        var ctx = document.getElementById("myBarChart");
-        if(ctx == null || ctx == undefined){
-        } else {
-            fetchData("today");
+        if(`{{Auth::user()->role}}` === "admin"){
+            var ctx = document.getElementById("myBarChart");
+            if(ctx == null || ctx == undefined){
+            } else {
+                fetchData("today");
+            }
+        } else if(`{{Auth::user()->role}}` === "teknisi"){
+            window.location.href = `{{ url('/daftartugas') }}`;
         }
     </script>
 @endsection

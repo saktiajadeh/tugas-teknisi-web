@@ -49,11 +49,11 @@
                 <div class="sidenav-menu">
                     <div class="nav">
                         <div class="sidenav-menu-heading">Menu Utama</div>
-                        <a class="nav-link" href="{{ url('/beranda') }}">
-                            <div class="nav-link-icon"><i class="ion-home"></i></div>
-                            <span>Beranda</span>
-                        </a>
                         @if(Auth::user()->role === "admin")
+                            <a class="nav-link" href="{{ url('/beranda') }}">
+                                <div class="nav-link-icon"><i class="ion-home"></i></div>
+                                <span>Beranda</span>
+                            </a>
                             <a class="nav-link" href="{{ url('/karyawan') }}">
                                 <div class="nav-link-icon"><i class="ion-person-stalker"></i></div>
                                 <span>Karyawan</span>

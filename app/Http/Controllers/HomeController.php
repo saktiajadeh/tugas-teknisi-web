@@ -32,7 +32,8 @@ class HomeController extends Controller
         $karyawan = User::all()->count();
         $pelanggan = Pelanggan::all()->count();
         $kategorijasa = KategoriJasa::all()->count();
-        $tugasteknisi = TugasTeknisi::all()->count();
+        $servisorder = TugasTeknisi::all()->count();
+        $tugasteknisi = TugasTeknisi::where('karyawan_id', '!=', 0)->count();
 
         $idTeknisi = Auth::user()->id;
         $daftartugas = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->where('status', '!=', 'finish')->orderBy('status')->get()->count();
@@ -42,6 +43,7 @@ class HomeController extends Controller
             'karyawan' => $karyawan ?? null,
             'pelanggan' => $pelanggan ?? null,
             'kategorijasa' => $kategorijasa ?? null,
+            'servisorder' => $servisorder ?? null,
             'tugasteknisi' => $tugasteknisi ?? null,
             'daftartugas' => $daftartugas ?? null,
             'tugasselesai' => $tugasselesai ?? null,
