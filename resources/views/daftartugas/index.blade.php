@@ -121,15 +121,15 @@
                 processing: true,
                 serverSide: true,
                 ajax:{
-                        url: "{{ route('api.daftartugas') }}",
-                        data: {
-                            filter_pelanggan: filter_pelanggan,
-                            filter_kategorijasa: filter_kategorijasa,
-                            filter_status: filter_status,
-                            tanggal_mulai: tanggal_mulai,
-                            tanggal_selesai: tanggal_selesai,
-                        }
-                    },
+                    url: "{{ route('api.daftartugas') }}",
+                    data: {
+                        filter_pelanggan: filter_pelanggan,
+                        filter_kategorijasa: filter_kategorijasa,
+                        filter_status: filter_status,
+                        tanggal_mulai: tanggal_mulai,
+                        tanggal_selesai: tanggal_selesai,
+                    }
+                },
                 columns: [
                     { 
                         'data': null,

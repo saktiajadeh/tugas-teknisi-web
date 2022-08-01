@@ -24,7 +24,6 @@ class ServisOrderController extends Controller
         $pelanggan = Pelanggan::orderBy('nama')->get()->pluck('nama','id');
         $kategorijasa = KategoriJasa::get()->pluck('nama','id');
         $teknisi = User::where('role', '=', 'teknisi')->orderBy('name')->get()->pluck('name','id');
-        $tugasteknisi = TugasTeknisi::all();
 
         return view('servisorder.index', compact('pelanggan', 'kategorijasa', 'teknisi'));
     }
@@ -155,9 +154,35 @@ class ServisOrderController extends Controller
         ]);
     }
 
-    public function apiServisOrder()
+    public function apiServisOrder(Request $request)
     {
-        $data = TugasTeknisi::all();
+        $filter_teknisi = (int)$request->filter_teknisi ?? null;
+        $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
+        $filter_kategorijasa = (int)$request->filter_kategorijasa ?? null;
+        $filter_status = $request->filter_status ?? null;
+        $tanggal_mulai = $request->tanggal_mulai . " 00:00:00" ?? null;
+        $tanggal_selesai = $request->tanggal_selesai . " 23:59:59" ?? null;
+
+        $data = TugasTeknisi::orderBy('updated_at', 'DESC');
+
+        if($filter_teknisi != null){
+            $data->where('karyawan_id', '=', $filter_teknisi);
+        }
+        if($filter_pelanggan != null){
+            $data->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $data->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        if($filter_status != null){
+            $data->where('status', '=', $filter_status);
+        }
+        if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+            $data->where('tanggal_mulai', '>=', $tanggal_mulai)
+            ->where('tanggal_selesai', '<=', $tanggal_selesai);
+        }
+        
+        $data = $data->get();
 
         return Datatables::of($data)
             ->addColumn('nama_pelanggan', function ($data){

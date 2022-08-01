@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-center justify-content-md-start mb-3">
                             <a onclick="addForm()" class="btn btn-primary btn-sm">
-                                <i class="ion-plus-round"></i>
+                                <i class="ion-plus-round me-1"></i>
                                 Tambah Data Kategori Jasa
                             </a>
                         </div>

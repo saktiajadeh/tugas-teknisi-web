@@ -17,15 +17,64 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-center justify-content-md-start mb-3">
                             <a onclick="addForm()" class="btn btn-primary btn-sm">
-                                <i class="ion-plus-round"></i>
+                                <i class="ion-plus-round me-1"></i>
                                 Tambah Data Servis Order
                             </a>
+                        </div>
+                        <div class="d-flex flex-wrap align-items-end justify-content-center justify-content-md-start">
+                            <div class="form-group mb-2 me-2">
+                                <label for="" class="form-label mb-0">Filter Teknisi</label>
+                                <select id="filter_teknisi" name="filter_teknisi" class="form-control select" style="width: 155px;">
+                                    <option value=" ">No Filter</option>
+                                    @foreach($teknisi as $id=>$value)
+                                        <option value="{{ $id }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-2 me-2">
+                                <label for="" class="form-label mb-0">Filter Pelanggan</label>
+                                <select id="filter_pelanggan" name="filter_pelanggan" class="form-control select" style="width: 155px;">
+                                    <option value=" ">No Filter</option>
+                                    @foreach($pelanggan as $id=>$value)
+                                        <option value="{{ $id }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-2 me-2">
+                                <label for="" class="form-label mb-0">Filter Kategori</label>
+                                <select id="filter_kategorijasa" name="filter_kategorijasa" class="form-control select" style="width: 155px;">
+                                    <option value=" ">No Filter</option>
+                                    @foreach($kategorijasa as $id=>$value)
+                                        <option value="{{ $id }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-2 me-2">
+                                <label for="" class="form-label mb-0">Filter Status</label>
+                                <select id="filter_status" name="filter_status" class="form-control select" style="width: 155px;">
+                                    <option value=" ">No Filter</option>
+                                    <option value="nostatus">Belum Dikerjakan</option>
+                                    <option value="progress">Sedang Dikerjakan</option>
+                                    <option value="finish">Selesai</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-center">                            
+                                <div class="form-group me-2 mb-2">
+                                    <label for="" class="form-label mb-0">Dari</label>
+                                    <input id="tanggal_mulai" name="tanggal_mulai" type="date" class="form-control" style="width: 155px;"/>
+                                </div>
+                                <div class="form-group me-2 mb-2">
+                                    <label for="" class="form-label mb-0">Sampai</label>
+                                    <input id="tanggal_selesai" name="tanggal_selesai" type="date" class="form-control" style="width: 155px;"/>
+                                </div>
+                            </div>
+                            <button onclick="applyfilter()" class="btn btn-primary mb-2">Apply Filter</button>
                         </div>
                         <div class="table-responsive p-1">
                             <table id="servisOrderTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Alamat Pelanggan</th>
                                         <th>Kategori Jasa</th>
@@ -62,21 +111,53 @@
     <script src="{{ asset('js/validator.min.js') }}"></script>
 
     <script type="text/javascript">
-        var table = $('#servisOrderTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('api.servisorder') }}",
-            columns: [
-                {data: 'id', name: 'id'},
-                {data: 'nama_pelanggan', name: 'nama_pelanggan'},
-                {data: 'alamat_pelanggan', name: 'alamat_pelanggan'},
-                {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
-                {data: 'detail', name: 'detail'},
-                {data: 'mulai_info', name: 'mulai_info'},
-                {data: 'show_foto_dokumen', name: 'show_foto_dokumen', orderable: false, searchable: false},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
-            ]
-        });
+        function fetchData(filter_teknisi ="", filter_pelanggan = "", filter_kategorijasa = "", filter_status = "", tanggal_mulai = "", tanggal_selesai = ""){
+            if(tanggal_mulai != "" && tanggal_selesai != ""){
+                var date1 = new Date(tanggal_mulai);
+                var date2 = new Date(tanggal_selesai);
+                if(date1 > date2){
+                    swal({
+                        title: 'Oops...',
+                        text: 'Input Tanggal Tidak Valid',
+                        type: 'error',
+                        timer: '3000'
+                    });
+                    return null;
+                }
+            }
+            var table = $('#servisOrderTable').DataTable({
+                "bDestroy": true,
+                processing: true,
+                serverSide: true,
+                ajax:{
+                    url: "{{ route('api.servisorder') }}",
+                    data: {
+                        filter_teknisi: filter_teknisi,
+                        filter_pelanggan: filter_pelanggan,
+                        filter_kategorijasa: filter_kategorijasa,
+                        filter_status: filter_status,
+                        tanggal_mulai: tanggal_mulai,
+                        tanggal_selesai: tanggal_selesai,
+                    }
+                },
+                columns: [
+                    { 
+                        'data': null,
+                        'sortable': false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_pelanggan', name: 'nama_pelanggan'},
+                    {data: 'alamat_pelanggan', name: 'alamat_pelanggan'},
+                    {data: 'nama_kategori_jasa', name: 'nama_kategori_jasa'},
+                    {data: 'detail', name: 'detail'},
+                    {data: 'mulai_info', name: 'mulai_info'},
+                    {data: 'show_foto_dokumen', name: 'show_foto_dokumen', orderable: false, searchable: false},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        }
 
         function addForm() {
             save_method = "add";
@@ -130,7 +211,8 @@
                     type : "POST",
                     data : {'_method' : 'DELETE', '_token' : csrf_token},
                     success : function(data) {
-                        table.ajax.reload();
+                        // table.ajax.reload();
+                        fetchData();
                         swal({
                             title: 'Success!',
                             text: data.message,
@@ -167,7 +249,7 @@
                         processData: false,
                         success : function(data) {
                             $('#modal-form').modal('hide');
-                            table.ajax.reload();
+                            fetchData();
                             swal({
                                 title: 'Success!',
                                 text: data.message,
@@ -188,5 +270,22 @@
                 }
             });
         });
+
+        function applyfilter(){
+            var filter_teknisi = $('#filter_teknisi').val();
+            var filter_pelanggan = $('#filter_pelanggan').val();
+            var filter_kategorijasa = $('#filter_kategorijasa').val();
+            var filter_status = $('#filter_status').val();
+            var tanggal_mulai = $('#tanggal_mulai').val();
+            var tanggal_selesai = $('#tanggal_selesai').val();
+
+            fetchData(filter_teknisi, filter_pelanggan, filter_kategorijasa, filter_status, tanggal_mulai, tanggal_selesai);
+        }
+
+        $('select').on('change', function (e) {
+            applyfilter();
+        });
+
+        fetchData();
     </script>
 @endsection
