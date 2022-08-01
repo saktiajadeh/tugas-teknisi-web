@@ -43,7 +43,7 @@
           </tr>
         </thead>
       </table>
-        <p align="right">{{ date('l, d F Y', strtotime($tanggal_mulai->tanggal_mulai)) }}-{{ date('l, d F Y', strtotime($tanggal_selesai->tanggal_selesai)) }}</p>
+        <h4 align="left">Laporan Tugas Teknisi&nbsp;{{ $rangeTanggal }}</h4>
         <table id="cetakLaporan" width="100%" style="margin-top: 20px;">
             <thead>
                 @if(count($laporan) <= 0 )
@@ -61,10 +61,9 @@
                     <td style="word-break: break-word; font-weight: bold;">Kategori Jasa</td>
                     <td style="word-break: break-word; font-weight: bold;">Teknisi</td>
                     <td style="word-break: break-word; font-weight: bold;">Detail</td>
+                    <td style="word-break: break-word; font-weight: bold;">Status</td>
                     <td style="word-break: break-word; font-weight: bold;">Dimulai pada</td>
                     <td style="word-break: break-word; font-weight: bold;">Selesai pada</td>
-                    <td style="word-break: break-word; font-weight: bold;">Foto Mulai</td>
-                    <td style="word-break: break-word; font-weight: bold;">Foto Selesai</td>
                 </tr>
                 @endif
             </thead>
@@ -78,10 +77,15 @@
                         <td style="word-break: break-word;">{{ $data->kategorijasa->nama }}</td>
                         <td style="word-break: break-word;">{{ $data->karyawan->name }}</td>
                         <td style="word-break: break-word;">{{ $data->detail }}</td>
+                        <td style="word-break: break-word;">{{ $data->status }}</td>
                         <td style="word-break: break-word;">{{ "Jam: " . $data->jam_mulai . ", Tanggal: ". $data->tanggal_mulai }}</td>
-                        <td style="word-break: break-word;">{{ "Jam: " . $data->jam_selesai . ", Tanggal: ". $data->tanggal_selesai }}</td>
-                        <td style="word-break: break-word;"><img src="{{asset($data->foto_mulai)}}" style="width: 50px; height: 50px;object-fit: contain;"/></td>
-                        <td style="word-break: break-word;"><img src="{{asset($data->foto_selesai)}}" style="width: 50px; height: 50px;object-fit: contain;"/></td>
+                        <td style="word-break: break-word;">
+                          @if($data->status === "finish")
+                          {{ "Jam: " . $data->jam_selesai . ", Tanggal: ". $data->tanggal_selesai }}
+                          @else
+                          -
+                          @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

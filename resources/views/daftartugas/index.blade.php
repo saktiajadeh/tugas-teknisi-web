@@ -59,7 +59,7 @@
                             <table id="daftarTugasTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Alamat Pelanggan</th>
                                         {{-- <th>No Telp Pelanggan</th> --}}
