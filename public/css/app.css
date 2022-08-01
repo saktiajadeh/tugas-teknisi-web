@@ -12305,6 +12305,18 @@ div#app .btn-outline-primary:hover {
   border-color: #3f71c0;
 }
 
+div#app .btn-success {
+  color: #fff;
+  background-color: rgba(28, 200, 138, 0.85);
+  border-color: #1cc88a;
+}
+
+div#app .btn-success:hover {
+  color: #fff;
+  background-color: #1cc88a;
+  border-color: #1cc88a;
+}
+
 div#app .btn-outline-success {
   color: #1cc88a;
   border-color: #1cc88a;

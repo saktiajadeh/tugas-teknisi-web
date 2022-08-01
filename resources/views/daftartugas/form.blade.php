@@ -15,7 +15,7 @@
                     <input type="hidden" id="id" name="id">
                     <input type="text" id="status" name="status" style="display: none;">
                     <div class="box-body">
-                        <div class="form-group mb-2">
+                        <div class="form-group">
                             <label><strong>Pelanggan :</strong></label>
                             <br>
                             <label id="nama_pelanggan">Nama Pelaggan</label>
@@ -23,13 +23,14 @@
                             <label id="alamat_pelanggan">Alamat Pelaggan</label>
                             <br>
                             <label id="no_telp_pelanggan">No Telp Pelaggan</label>
-                            <br>
+                            <hr>
                             <label ><strong>Kategori Jasa</strong></label>:&nbsp;<label id="kategori_jasa">Kategori Jasa</label>
                             <br>
                             <label ><strong>Jadwal Mulai</strong></label>:&nbsp;<label id="mulai_info">Jadwal Mulai</label>
                             <br>
                             <label ><strong>Detail Tugas</strong></label>:&nbsp;<label id="detail">Detail Tugas</label>
                         </div>
+                        <hr>
                         <div class="form-group mb-2">
                             <label >Foto Mulai</label>
                             <input type="file" class="form-control" id="foto_mulai" name="foto_mulai" required>

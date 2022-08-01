@@ -83,10 +83,6 @@
                                 <div class="nav-link-icon"><i class="ion-clipboard"></i></div>
                                 <span>Daftar Tugas</span>
                             </a>
-                            <a class="nav-link" href="{{ url('/daftartugasselesai') }}">
-                                <div class="nav-link-icon"><i class="ion-android-checkmark-circle"></i></div>
-                                <span>Tugas Selesai</span>
-                            </a>
                         @endif
                         {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="nav-link-icon"><i class="ion-ios-book"></i></div>

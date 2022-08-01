@@ -41,6 +41,4 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('daftartugas', 'App\Http\Controllers\DaftarTugasController');
     Route::get('/apiDaftarTugas', 'App\Http\Controllers\DaftarTugasController@apiDaftarTugas')->name('api.daftartugas');
-    Route::get('/daftartugasselesai', 'App\Http\Controllers\DaftarTugasController@daftarTugasSelesai');
-    Route::get('/apiDaftarTugasSelesai', 'App\Http\Controllers\DaftarTugasController@apiDaftarTugasSelesai')->name('api.daftartugasselesai');
 });

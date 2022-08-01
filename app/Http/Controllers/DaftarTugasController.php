@@ -14,12 +14,6 @@ class DaftarTugasController extends Controller
     public function __construct(){
         $this->middleware('role:teknisi');
     }
-    public function daftarTugasSelesai()
-    {
-        $pelanggan = Pelanggan::select('id','nama', 'alamat')->orderBy('nama')->get();
-        $kategorijasa = KategoriJasa::select('nama','id')->get();
-        return view('daftartugas.selesai', compact('pelanggan', 'kategorijasa'));
-    }
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +21,13 @@ class DaftarTugasController extends Controller
      */
     public function index()
     {
-        return view('daftartugas.index');
+        $idTeknisi = Auth::user()->id;
+        $pelanggan = Pelanggan::orderBy('nama')
+            ->whereHas('tugasteknisi', function($query) use($idTeknisi){
+                $query->where('tugas_teknisi.karyawan_id', '=', $idTeknisi);
+            })->get();
+        $kategorijasa = KategoriJasa::select('nama','id')->get();
+        return view('daftartugas.index', compact('pelanggan', 'kategorijasa'));
     }
 
     /**
@@ -70,10 +70,12 @@ class DaftarTugasController extends Controller
      */
     public function edit($id)
     {
-        $data = TugasTeknisi::find($id);
-        $data["pelanggan"] = $data->pelanggan;
-        $data["kategori_jasa"] = $data->kategorijasa;
-        $data["mulai_info"] = $data->tanggal_mulai . ', ' . $data->jam_mulai;;
+        $data = TugasTeknisi::where('id', '=', $id)->with(['karyawan'])->with(['pelanggan'])->with(['kategorijasa'])->first();
+        $data["mulai_info"] = $data->tanggal_mulai . ', ' . $data->jam_mulai;
+        $data["selesai_info"] = "-";
+        if($data->tanggal_selesai != null && $data->jam_selesai != null){
+            $data["selesai_info"] = $data->tanggal_selesai . ', ' . $data->jam_selesai;
+        }
         return $data;
     }
 
@@ -87,7 +89,16 @@ class DaftarTugasController extends Controller
     public function update(Request $request, $id)
     {
         $input = $request->all();
+        $jam_selesai = $request['jam_selesai'] ?? null;
+        $tanggal_selesai = $request['tanggal_selesai'] ?? null;
         $data = TugasTeknisi::findOrFail($id);
+
+        if ($jam_selesai != null){
+            $data->jam_selesai = $request->jam_selesai;
+        }
+        if ($tanggal_selesai != null){
+            $data->tanggal_selesai = $request->tanggal_selesai;
+        }
 
         $input['foto_mulai'] = $data->foto_mulai;
         if ($request->hasFile('foto_mulai')){
@@ -126,10 +137,32 @@ class DaftarTugasController extends Controller
         //
     }
 
-    public function apiDaftarTugas()
+    public function apiDaftarTugas(Request $request)
     {
+        $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
+        $filter_kategorijasa = (int)$request->filter_kategorijasa ?? null;
+        $filter_status = $request->filter_status ?? null;
+        $tanggal_mulai = $request->tanggal_mulai . " 00:00:00" ?? null;
+        $tanggal_selesai = $request->tanggal_selesai . " 23:59:59" ?? null;
+
         $idTeknisi = Auth::user()->id;
-        $data = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->where('status', '!=', 'finish')->orderBy('status')->get();
+        $data = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->orderBy('updated_at', 'DESC');
+
+        if($filter_pelanggan != null){
+            $data->where('pelanggan_id', '=', $filter_pelanggan);
+        }
+        if($filter_kategorijasa != null){
+            $data->where('kategori_jasa_id', '=', $filter_kategorijasa);
+        }
+        if($filter_status != null){
+            $data->where('status', '=', $filter_status);
+        }
+        if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+            $data->where('tanggal_mulai', '>=', $tanggal_mulai)
+            ->where('tanggal_selesai', '<=', $tanggal_selesai);
+        }
+        
+        $data = $data->get();
 
         return Datatables::of($data)
             ->addColumn('nama_pelanggan', function ($data){
@@ -145,11 +178,11 @@ class DaftarTugasController extends Controller
                 return $data->kategorijasa->nama;
             })
             ->addColumn('mulai_info', function ($data){
-                return 'Tanggal: ' . $data->tanggal_mulai . ', ' . $data->jam_mulai;
+                return $data->tanggal_mulai . ', ' . $data->jam_mulai;
             })
             ->addColumn('selesai_info', function ($data){
                 if($data->tanggal_selesai != null && $data->jam_selesai != null){
-                    return 'Tanggal: ' . $data->tanggal_selesai . ', ' . $data->jam_selesai;
+                    return $data->tanggal_selesai . ', ' . $data->jam_selesai;
                 }
                 return "-";
             })
@@ -180,78 +213,19 @@ class DaftarTugasController extends Controller
             ->addColumn('action', function ($data){
                 $info = null;
                 if($data->status === "nostatus"){
-                    return '<a onclick="mulaiKerjakanForm('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-flag"></i> Mulai?</a> ';
+                    return '<a onclick="detail('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-folder me-1"></i> Detail</a>
+                    <a onclick="mulaiKerjakanForm('. $data->id .')" class="btn btn-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-flag me-1"></i> Mulai?</a>';
                 }
                 if($data->status === "progress"){
-                    return '<a onclick="selesaiForm('. $data->id .')" class="btn btn-outline-success btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-android-checkmark-circle"></i> Selesai?</a> ';
+                    return '
+                    <a onclick="detail('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-folder me-1"></i> Detail</a>
+                    <a onclick="selesaiForm('. $data->id .')" class="btn btn-success btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-android-checkmark-circle me-1"></i> Selesai?</a> ';
+                }
+                if($data->status === "finish"){
+                    return '<a onclick="detail('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-folder me-1"></i> Detail</a>';
                 }
             })
             ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info', 'action'])->make(true);
     }
 
-    public function apiDaftarTugasSelesai(Request $request)
-    {
-        $filter_pelanggan = (int)$request->filter_pelanggan ?? null;
-        $filter_kategorijasa = (int)$request->filter_kategorijasa ?? null;
-
-        $idTeknisi = Auth::user()->id;
-        $data = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->where('status', '=', 'finish');
-
-        if($filter_pelanggan != null){
-            $data->where('pelanggan_id', '=', $filter_pelanggan);
-        }
-        if($filter_kategorijasa != null){
-            $data->where('kategori_jasa_id', '=', $filter_kategorijasa);
-        }
-        
-        $data = $data->get();
-
-        return Datatables::of($data)
-            ->addColumn('nama_pelanggan', function ($data){
-                return $data->pelanggan->nama;
-            })
-            ->addColumn('alamat_pelanggan', function ($data){
-                return $data->pelanggan->alamat;
-            })
-            ->addColumn('no_telp_pelanggan', function ($data){
-                return $data->pelanggan->no_telp;
-            })
-            ->addColumn('nama_kategori_jasa', function ($data){
-                return $data->kategorijasa->nama;
-            })
-            ->addColumn('mulai_info', function ($data){
-                return 'Tanggal: ' . $data->tanggal_mulai . ', ' . $data->jam_mulai;
-            })
-            ->addColumn('selesai_info', function ($data){
-                if($data->tanggal_selesai != null && $data->jam_selesai != null){
-                    return 'Tanggal: ' . $data->tanggal_selesai . ', ' . $data->jam_selesai;
-                }
-                return "-";
-            })
-            ->addColumn('show_foto_mulai', function($data){
-                if ($data->foto_mulai == NULL){
-                    return 'Foto belum ada';
-                }
-                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_mulai) .'" alt="" style="object-fit: contain;">';
-            })
-            ->addColumn('show_foto_selesai', function($data){
-                if ($data->foto_selesai == NULL){
-                    return 'Foto belum ada';
-                }
-                return '<img class="rounded-square" width="60" height="60" src="'. url($data->foto_selesai) .'" alt="" style="object-fit: contain;">';
-            })
-            ->addColumn('status_info', function ($data){
-                $info = null;
-                if($data->status === "nostatus"){
-                    return '<span class="badge bg-secondary">Belum Dikerjakan</span>';
-                }
-                if($data->status === "progress"){
-                    return '<span class="badge bg-primary">Sedang Dikerjakan</span>';
-                }
-                if($data->status === "finish"){
-                    return '<span class="badge bg-success">Selesai</span>';
-                }
-            })
-            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info'])->make(true);
-    }
 }
