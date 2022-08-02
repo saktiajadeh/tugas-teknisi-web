@@ -247,7 +247,7 @@ class TugasTeknisiController extends Controller
         }
         
         $laporan = $laporan->get();
-        return view('tugasteknisi.cetakLaporanPDF',compact('laporan', 'rangeTanggal'));
+        // return view('tugasteknisi.cetakLaporanPDF',compact('laporan', 'rangeTanggal'));
         
         $pdf = PDF::loadView('tugasteknisi.cetakLaporanPDF',compact('laporan', 'rangeTanggal'));
         return $pdf->setPaper('a4', 'landscape')->download('Laporan Tugas Teknisi.pdf');

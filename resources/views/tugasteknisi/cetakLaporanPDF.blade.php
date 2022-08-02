@@ -75,7 +75,7 @@
                         <td style="word-break: break-word;">{{ $data->pelanggan->alamat }}</td>
                         <td style="word-break: break-word;">{{ $data->pelanggan->no_telp }}</td>
                         <td style="word-break: break-word;">{{ $data->kategorijasa->nama }}</td>
-                        <td style="word-break: break-word;">{{ $data->karyawan->name }}</td>
+                        <td style="word-break: break-word;">{{ $data->karyawan->name ?? '-' }}</td>
                         <td style="word-break: break-word;">{{ $data->detail }}</td>
                         <td style="word-break: break-word;">{{ $data->status }}</td>
                         <td style="word-break: break-word;">{{ "Jam: " . $data->jam_mulai . ", Tanggal: ". $data->tanggal_mulai }}</td>
