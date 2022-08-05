@@ -10,7 +10,7 @@
 
     @if(Auth::user()->role === "admin")
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-lg-5">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mb-3">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-lg-7">
                 <div class="row">
                     <div class="col-md-6">
                         <a href="{{ url('/karyawan') }}" class="card main-menu mb-3">
