@@ -24,7 +24,9 @@ class DaftarTugasController extends Controller
         $idTeknisi = Auth::user()->id;
         $pelanggan = Pelanggan::orderBy('nama')
             ->whereHas('tugasteknisi', function($query) use($idTeknisi){
-                $query->where('tugas_teknisi.karyawan_id', '=', $idTeknisi);
+                $query
+                    ->where('tugas_teknisi.karyawan_id', '=', $idTeknisi)
+                    ->orWhere('tugas_teknisi.karyawan_id_2', '=', $idTeknisi);
             })->get();
         $kategorijasa = KategoriJasa::select('nama','id')->get();
         return view('daftartugas.index', compact('pelanggan', 'kategorijasa'));
@@ -70,7 +72,7 @@ class DaftarTugasController extends Controller
      */
     public function edit($id)
     {
-        $data = TugasTeknisi::where('id', '=', $id)->with(['karyawan'])->with(['pelanggan'])->with(['kategorijasa'])->first();
+        $data = TugasTeknisi::where('id', '=', $id)->with(['karyawan'])->with(['karyawan2'])->with(['pelanggan'])->with(['kategorijasa'])->first();
         $data["mulai_info"] = $data->tanggal_mulai . ', ' . $data->jam_mulai;
         $data["selesai_info"] = "-";
         if($data->tanggal_selesai != null && $data->jam_selesai != null){
@@ -146,7 +148,10 @@ class DaftarTugasController extends Controller
         $tanggal_selesai = $request->tanggal_selesai . " 23:59:59" ?? null;
 
         $idTeknisi = Auth::user()->id;
-        $data = TugasTeknisi::where('karyawan_id', '=', $idTeknisi)->orderBy('updated_at', 'DESC');
+        
+        $data = TugasTeknisi::where(function ($query) use ($idTeknisi) {
+            $query->where('karyawan_id', '=', $idTeknisi)->orWhere('karyawan_id_2', '=', $idTeknisi);
+        })->orderBy('updated_at', 'DESC');
 
         if($filter_pelanggan != null){
             $data->where('pelanggan_id', '=', $filter_pelanggan);

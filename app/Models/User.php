@@ -42,4 +42,7 @@ class User extends Authenticatable
     public function tugasteknisiselesai() {
         return $this->hasMany(TugasTeknisi::class, 'karyawan_id', 'id')->where('status','=', 'finish');
     }
+    public function tugasteknisiselesai2() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id_2', 'id')->where('status','=', 'finish');
+    }
 }

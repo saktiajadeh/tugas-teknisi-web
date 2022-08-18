@@ -8,8 +8,11 @@
                 <h3 class="modal-title"></h3>
             </div>
             <div class="modal-body">
-                <strong><label >Teknisi :</label></strong>
+                <strong><label >Teknisi 1 :</label></strong>
                 <br><label class="nama_teknisi">anjay</label>
+                <br>
+                <strong><label >Teknisi 2 :</label></strong>
+                <br><label class="nama_teknisi2">anjay</label>
                 <hr>
                 <strong><label >Pelanggan :</label></strong>
                 <br><label class="nama_pelanggan">anjay</label>

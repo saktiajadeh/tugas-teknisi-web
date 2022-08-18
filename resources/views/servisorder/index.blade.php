@@ -21,7 +21,7 @@
                                 Tambah Data Servis Order
                             </a>
                         </div>
-                        <div class="d-flex flex-wrap align-items-end justify-content-center justify-content-md-start">
+                        <div id="filter_wrapper" class="d-flex flex-wrap align-items-end justify-content-center justify-content-md-start">
                             <div class="form-group mb-2 me-2">
                                 <label for="" class="form-label mb-0">Filter Teknisi</label>
                                 <select id="filter_teknisi" name="filter_teknisi" class="form-control select" style="width: 155px;">
@@ -282,7 +282,7 @@
             fetchData(filter_teknisi, filter_pelanggan, filter_kategorijasa, filter_status, tanggal_mulai, tanggal_selesai);
         }
 
-        $('select').on('change', function (e) {
+        $('#filter_wrapper select').on('change', function (e) {
             applyfilter();
         });
 

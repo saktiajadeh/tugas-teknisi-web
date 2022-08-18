@@ -241,6 +241,7 @@
                     }, 50);
 
                     $('#modal-detail .nama_teknisi').text(data.karyawan.name);
+                    $('#modal-detail .nama_teknisi2').text(data.karyawan2.name);
 
                     $('#modal-detail .nama_pelanggan').text(data.pelanggan.nama);
                     $('#modal-detail .alamat_pelanggan').text(data.pelanggan.alamat);

@@ -15,8 +15,13 @@
                     <input type="hidden" id="id" name="id">
                     <div class="box-body">
                         <div class="form-group mb-2">
-                            <label >Teknisi</label>
+                            <label >Teknisi 1</label>
                             {!! Form::select('karyawan_id', $teknisi, null, ['class' => 'form-control select', 'placeholder' => '-- Pilih Teknisi --', 'id' => 'karyawan_id', 'required']) !!}
+                            <span class="help-block with-errors"></span>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label >Teknisi 2</label>
+                            {!! Form::select('karyawan_id_2', $teknisi, null, ['class' => 'form-control select', 'placeholder' => '-- Pilih Teknisi 2 --', 'id' => 'karyawan_id_2', 'required']) !!}
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

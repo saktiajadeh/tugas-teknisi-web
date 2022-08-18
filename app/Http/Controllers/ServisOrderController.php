@@ -166,7 +166,9 @@ class ServisOrderController extends Controller
         $data = TugasTeknisi::orderBy('updated_at', 'DESC');
 
         if($filter_teknisi != null){
-            $data->where('karyawan_id', '=', $filter_teknisi);
+            $data->where(function ($query) use ($filter_teknisi) {
+                $query->where('karyawan_id', '=', $filter_teknisi)->orWhere('karyawan_id_2', '=', $filter_teknisi);
+            });
         }
         if($filter_pelanggan != null){
             $data->where('pelanggan_id', '=', $filter_pelanggan);

@@ -65,7 +65,8 @@
                     <td style="word-break: break-word; font-weight: bold;">Alamat Pelanggan</td>
                     <td style="word-break: break-word; font-weight: bold;">No Telp Pelanggan</td>
                     <td style="word-break: break-word; font-weight: bold;">Kategori Jasa</td>
-                    <td style="word-break: break-word; font-weight: bold;">Teknisi</td>
+                    <td style="word-break: break-word; font-weight: bold;">Teknisi 1</td>
+                    <td style="word-break: break-word; font-weight: bold;">Teknisi 2</td>
                     <td style="word-break: break-word; font-weight: bold;">Detail</td>
                     <td style="word-break: break-word; font-weight: bold;">Status</td>
                     <td style="word-break: break-word; font-weight: bold;">Dimulai pada</td>
@@ -83,6 +84,8 @@
                     <td style="word-break: break-word;">{{ $data->kategorijasa->nama }}</td>
                     <td style="word-break: break-word;">
                         {{ $data->karyawan->name ?? '-' }}</td>
+                    <td style="word-break: break-word;">
+                        {{ $data->karyawan2->name ?? '-' }}</td>
                     <td style="word-break: break-word;">{{ $data->detail }}</td>
                     <td style="word-break: break-word;">{{ $data->status }}</td>
                     <td style="word-break: break-word;">

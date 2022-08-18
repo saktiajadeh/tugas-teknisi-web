@@ -73,7 +73,14 @@ class HomeController extends Controller
                 } else {    
                     $q->where('tugas_teknisi.tanggal_selesai', '=', $filter_tanggal);
                 }
-                
+            }
+          }])->withCount(['tugasteknisiselesai2' => function($q) use ($filter_tanggal, $filterlast){
+            if($filter_tanggal != null){
+                if($filterlast){
+                    $q->where('tugas_teknisi.tanggal_selesai', '>=', $filter_tanggal);
+                } else {    
+                    $q->where('tugas_teknisi.tanggal_selesai', '=', $filter_tanggal);
+                }
             }
           }])->get();
 

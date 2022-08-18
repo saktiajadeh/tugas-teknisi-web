@@ -185,7 +185,7 @@
             var dataCount = [];
             data.forEach((val, i)=>{
                 dataLabels.push(val.name);
-                dataCount.push(val.tugasteknisiselesai_count);
+                dataCount.push(val.tugasteknisiselesai_count + val.tugasteknisiselesai2_count);
             });
             barChart.config.data.labels = dataLabels;
             barChart.config.data.datasets[0].data = dataCount;

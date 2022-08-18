@@ -21,7 +21,7 @@
                                 Cetak Laporan Tugas Teknisi
                             </a>
                         </div>
-                        <div class="d-flex flex-wrap align-items-end justify-content-center justify-content-md-start">
+                        <div id="filter_wrapper" class="d-flex flex-wrap align-items-end justify-content-center justify-content-md-start">
                             <div class="form-group mb-2 me-2">
                                 <label for="" class="form-label mb-0">Filter Pelanggan</label>
                                 <select id="filter_pelanggan" name="filter_pelanggan" class="form-control select" style="width: 155px;">
@@ -85,7 +85,9 @@
                                         {{-- <th>Foto Sebelum</th>
                                         <th>Foto Selesai</th> --}}
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        <th>Teknisi 1</th>
+                                        <th>Teknisi 2</th>
+                                        <th width="140px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -163,6 +165,8 @@
                     // {data: 'show_foto_mulai', name: 'show_foto_mulai', orderable: false, searchable: false},
                     // {data: 'show_foto_selesai', name: 'show_foto_selesai', orderable: false, searchable: false},
                     {data: 'status_info', name: 'status_info', orderable: false, searchable: false},
+                    {data: 'teknisi1', name: 'teknisi1'},
+                    {data: 'teknisi2', name: 'teknisi2'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             });
@@ -178,7 +182,7 @@
 
         function editForm(id) {
             save_method = 'edit';
-            $('input[name=_method]').val('PATCH');
+            $('input[name=_method]').val('PUT');
             $('#modal-form form')[0].reset();
             $.ajax({
                 url: "{{ url('tugasteknisi') }}" + '/' + id + "/edit",
@@ -238,37 +242,54 @@
             $('#modal-form form').validator().on('submit', function (e) {
                 if (!e.isDefaultPrevented()){
                     var id = $('#id').val();
-                    if (save_method == 'add') url = "{{ url('tugasteknisi') }}";
-                    else url = "{{ url('tugasteknisi') . '/' }}" + id;
+                    if (save_method == 'add'){
+                        url = "{{ url('tugasteknisi') }}";
+                    } else {
+                        url = "{{ url('tugasteknisi') . '/' }}" + id;
+                    }
 
-                    $.ajax({
-                        url : url,
-                        type : "POST",
-                        //hanya untuk input data tanpa dokumen
-//                      data : $('#modal-form form').serialize(),
-                        data: new FormData($("#modal-form form")[0]),
-                        contentType: false,
-                        processData: false,
-                        success : function(data) {
-                            $('#modal-form').modal('hide');
-                            fetchData();
-                            swal({
-                                title: 'Success!',
-                                text: data.message,
-                                type: 'success',
-                                timer: '1500'
-                            })
-                        },
-                        error : function(data){
+                    if(save_method === 'edit'){
+                        var teknisi1 = $('#modal-form #karyawan_id').val();
+                        var teknisi2 = $('#modal-form #karyawan_id_2').val();
+                        if(teknisi1 === teknisi2){
                             swal({
                                 title: 'Oops...',
-                                text: data.message,
+                                text: 'Teknisi 1 dengan Teknisi 2 Tidak Boleh Sama',
                                 type: 'error',
-                                timer: '1500'
-                            })
+                                timer: '5000'
+                            });
+                            return false;
+                        } else {
+                            $.ajax({
+                                url : url,
+                                type : "POST",
+                                //hanya untuk input data tanpa dokumen
+        //                      data : $('#modal-form form').serialize(),
+                                data: new FormData($("#modal-form form")[0]),
+                                contentType: false,
+                                processData: false,
+                                success : function(data) {
+                                    $('#modal-form').modal('hide');
+                                    fetchData();
+                                    swal({
+                                        title: 'Success!',
+                                        text: data.message,
+                                        type: 'success',
+                                        timer: '1500'
+                                    })
+                                },
+                                error : function(data){
+                                    swal({
+                                        title: 'Oops...',
+                                        text: data.message,
+                                        type: 'error',
+                                        timer: '1500'
+                                    })
+                                }
+                            });
+                            return false;
                         }
-                    });
-                    return false;
+                    }
                 }
             });
         });
@@ -285,6 +306,7 @@
                     }, 50);
 
                     $('#modal-detail .nama_teknisi').text(data.karyawan.name);
+                    $('#modal-detail .nama_teknisi2').text(data.karyawan2.name);
 
                     $('#modal-detail .nama_pelanggan').text(data.pelanggan.nama);
                     $('#modal-detail .alamat_pelanggan').text(data.pelanggan.alamat);
@@ -377,7 +399,7 @@
             fetchData(filter_teknisi, filter_pelanggan, filter_kategorijasa, filter_status, tanggal_mulai, tanggal_selesai);
         }
 
-        $('select').on('change', function (e) {
+        $('#filter_wrapper select').on('change', function (e) {
             applyfilter();
         });
 

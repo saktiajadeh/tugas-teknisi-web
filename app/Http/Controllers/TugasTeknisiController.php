@@ -82,7 +82,7 @@ class TugasTeknisiController extends Controller
      */
     public function edit($id)
     {
-        $data = TugasTeknisi::where('id', '=', $id)->with(['karyawan'])->with(['pelanggan'])->with(['kategorijasa'])->first();
+        $data = TugasTeknisi::where('id', '=', $id)->with(['karyawan'])->with(['karyawan2'])->with(['pelanggan'])->with(['kategorijasa'])->first();
         $data["mulai_info"] = $data->tanggal_mulai . ', ' . $data->jam_mulai;
         $data["selesai_info"] = "-";
         if($data->tanggal_selesai != null && $data->jam_selesai != null){
@@ -102,6 +102,7 @@ class TugasTeknisiController extends Controller
     {
         $this->validate($request, [
             'karyawan_id'       => 'required',
+            'karyawan_id_2'       => 'required',
         ]);
 
         $data = TugasTeknisi::findOrFail($id);
@@ -142,7 +143,9 @@ class TugasTeknisiController extends Controller
         $data = TugasTeknisi::orderBy('updated_at', 'DESC');
 
         if($filter_teknisi != null){
-            $data->where('karyawan_id', '=', $filter_teknisi);
+            $data->where(function ($query) use ($filter_teknisi) {
+                $query->where('karyawan_id', '=', $filter_teknisi)->orWhere('karyawan_id_2', '=', $filter_teknisi);
+            });
         }
         if($filter_pelanggan != null){
             $data->where('pelanggan_id', '=', $filter_pelanggan);
@@ -206,14 +209,25 @@ class TugasTeknisiController extends Controller
                     return '<span class="badge bg-success">Selesai</span>';
                 }
             })
+            ->addColumn('teknisi1', function($data){
+                if($data->karyawan_id === 0){
+                    return '-';
+                }
+                return '<span class="badge bg-primary me-2 mb-2">'. $data->karyawan->name .'</span><br>';
+            })
+            ->addColumn('teknisi2', function($data){
+                if($data->karyawan_id_2 === 0){
+                    return '-';
+                }
+                return '<span class="badge bg-primary me-2 mb-2">'. $data->karyawan2->name .'</span><br>';
+            })
             ->addColumn('action', function($data){
                 if($data->karyawan_id === 0){
                     return '<a onclick="editForm('. $data->id .')" class="btn btn-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-edit me-1"></i> Serahkan Tugas</a> ';
                 }
-                return '<span class="badge bg-primary me-2 mb-2">Tugas sudah Diserahkan kpd. '. $data->karyawan->name .'</span><br>
-                <a onclick="detail('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-folder me-1"></i> Detail</a>';
+                return '<a onclick="detail('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-folder me-1"></i> Detail</a>';
             })
-            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info', 'action'])->make(true);
+            ->rawColumns(['show_foto_mulai', 'show_foto_selesai', 'status_info', 'teknisi1', 'teknisi2', 'action'])->make(true);
     }
 
     public function exportLaporanTugasTeknisi(Request $request)
@@ -229,7 +243,9 @@ class TugasTeknisiController extends Controller
         $laporan = TugasTeknisi::orderBy('updated_at', 'DESC');
 
         if($filter_teknisi != null){
-            $laporan->where('karyawan_id', '=', $filter_teknisi);
+            $laporan->where(function ($query) use ($filter_teknisi) {
+                $query->where('karyawan_id', '=', $filter_teknisi)->orWhere('karyawan_id_2', '=', $filter_teknisi);
+            });
         }
         if($filter_pelanggan != null){
             $laporan->where('pelanggan_id', '=', $filter_pelanggan);

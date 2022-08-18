@@ -25,9 +25,9 @@
                             <table id="kategoriJasaTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th style="width: 50px;">ID</th>
                                         <th>Nama</th>
-                                        <th>Aksi</th>
+                                        <th style="width: 150px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
