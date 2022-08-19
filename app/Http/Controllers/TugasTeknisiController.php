@@ -30,6 +30,15 @@ class TugasTeknisiController extends Controller
         return view('tugasteknisi.index', compact('pelanggan', 'kategorijasa', 'teknisi'));
     }
 
+    public function statistikTugasTeknisi(Request $request)
+    {
+        $pelanggan = Pelanggan::orderBy('nama')->get()->pluck('nama','id');
+        $kategorijasa = KategoriJasa::get()->pluck('nama','id');
+        $teknisi = User::where('role', '=', 'teknisi')->orderBy('name')->get()->pluck('name','id');
+
+        return view('tugasteknisi.statistik', compact('pelanggan', 'kategorijasa', 'teknisi'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -267,5 +276,159 @@ class TugasTeknisiController extends Controller
         
         $pdf = PDF::loadView('tugasteknisi.cetakLaporanPDF',compact('laporan', 'rangeTanggal'));
         return $pdf->setPaper('a4', 'landscape')->download('Laporan Tugas Teknisi.pdf');
+    }
+
+    public function apiStatistikTugasTeknisi(Request $request)
+    {
+        $filter_teknisi = (int)$request->filter_teknisi ?? null;
+        $tanggal_mulai = $request->tanggal_mulai . " 00:00:00" ?? null;
+        $tanggal_selesai = $request->tanggal_selesai . " 23:59:59" ?? null;
+
+        $data = User::where('role', '=', 'teknisi')
+            ->withCount(['tugasteknisitotal' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisitotal2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisinostatus' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisinostatus2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiprogress' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiprogress2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiselesai' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiselesai2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request->tanggal_mulai != null && $request->tanggal_selesai != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->orderBy('name');
+
+        if($filter_teknisi != null){
+            $data->where('id', '=', $filter_teknisi);
+        }
+        
+        $data = $data->get();
+
+        return Datatables::of($data)
+            ->addColumn('total_tugas', function($data){
+                return '<span class="badge bg-primary me-2 mb-2">'. ($data->tugasteknisitotal_count + $data->tugasteknisitotal2_count) .'</span><br>';
+            })
+            ->addColumn('tugas_nostatus', function($data){
+                return '<span class="badge bg-secondary me-2 mb-2">'. ($data->tugasteknisinostatus_count + $data->tugasteknisinostatus2_count) .'</span><br>';
+            })
+            ->addColumn('tugas_progress', function($data){
+                return '<span class="badge bg-primary me-2 mb-2">'. ($data->tugasteknisiprogress_count + $data->tugasteknisiprogress2_count) .'</span><br>';
+            })
+            ->addColumn('tugas_selesai', function($data){
+                return '<span class="badge bg-success me-2 mb-2">'. ($data->tugasteknisiselesai_count + $data->tugasteknisiselesai2_count) .'</span><br>';
+            })
+            ->addColumn('action', function($data){
+                return '<a onclick="detail('. $data->id .')" class="btn btn-outline-primary btn-sm me-2 mb-2" style="min-width: 65px;"><i class="ion-folder me-1"></i> Detail</a>';
+            })
+            ->rawColumns(['total_tugas', 'tugas_nostatus', 'tugas_progress', 'tugas_selesai', 'action'])->make(true);
+    }
+
+    public function exportLaporanStatistikTugasTeknisi(Request $request)
+    {
+        $filter_teknisi = (int)$request->filter_teknisi ?? null;
+        $tanggal_mulai = $request['amp;tanggal_mulai'] . " 00:00:00" ?? null;
+        $tanggal_selesai = $request['amp;tanggal_selesai'] . " 23:59:59" ?? null;
+        $rangeTanggal = null;
+
+        $laporan = User::where('role', '=', 'teknisi')
+            ->withCount(['tugasteknisitotal' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisitotal2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisinostatus' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisinostatus2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiprogress' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiprogress2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiselesai' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->withCount(['tugasteknisiselesai2' => function($query) use($tanggal_mulai, $tanggal_selesai, $request){
+                if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+                    $query->where('tanggal_mulai', '>=', $tanggal_mulai)
+                    ->where('tanggal_selesai', '<=', $tanggal_selesai);
+                }
+            }])
+            ->orderBy('name');
+
+        if($filter_teknisi != null){
+            $laporan->where('id', '=', $filter_teknisi);
+        }
+        
+        if($request['amp;tanggal_mulai'] != null && $request['amp;tanggal_selesai'] != null){
+            $rangeTanggal = '(' . Carbon::parse($tanggal_mulai)->format('d M Y') . ' - ' . Carbon::parse($tanggal_selesai)->format('d M Y') . ')';
+        }
+        
+        $laporan = $laporan->get();
+        
+        $pdf = PDF::loadView('tugasteknisi.cetakLaporanStatistikPDF',compact('laporan', 'rangeTanggal'));
+        return $pdf->setPaper('a4', 'landscape')->download('Laporan Statistik Tugas Teknisi.pdf');
     }
 }

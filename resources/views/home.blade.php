@@ -80,6 +80,14 @@
                             <i class="ion-clipboard"></i>
                         </a>
                     </div>
+                    <div class="col-md-6">
+                        <a href="{{ url('/statistiktugasteknisi') }}" class="card main-menu mb-3">
+                            <h5 class="mb-0 me-1">
+                                Statistik Tugas Teknisi
+                            </h5>
+                            <i class="ion-stats-bars"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

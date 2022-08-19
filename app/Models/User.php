@@ -39,6 +39,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function tugasteknisitotal() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id', 'id');
+    }
+    public function tugasteknisitotal2() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id_2', 'id');
+    }
+    public function tugasteknisinostatus() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id', 'id')->where('status','=', 'nostatus');
+    }
+    public function tugasteknisinostatus2() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id_2', 'id')->where('status','=', 'nostatus');
+    }
+    public function tugasteknisiprogress() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id', 'id')->where('status','=', 'progress');
+    }
+    public function tugasteknisiprogress2() {
+        return $this->hasMany(TugasTeknisi::class, 'karyawan_id_2', 'id')->where('status','=', 'progress');
+    }
     public function tugasteknisiselesai() {
         return $this->hasMany(TugasTeknisi::class, 'karyawan_id', 'id')->where('status','=', 'finish');
     }
